@@ -1,0 +1,65 @@
+{% extends 'users/main.html' %}
+
+{% block content %}
+<style>
+    /* courses.css */
+    .user-cards {
+        display: flex;
+        justify-content: space-around;
+        margin-top: -150px;
+        height: 350px;
+    }
+
+    .user-card {
+        width: 30%;
+        box-sizing: border-box;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        height: 450px;
+        margin: auto;
+    }
+
+    .user-card h2 {
+        color: #333;
+    }
+
+    .login-button {
+        background-color: #206fe5;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
+
+<div class="user-cards">
+    <div class="user-card">
+        <img src="../../static/images/admin.png" alt="Beginner's Course image">
+        <h2>Admin</h2>
+        <p>Login as an admin to manage the system.</p>
+        <a href="{% url 'admin' %}" class="btn">Login</a>
+    </div>
+
+    <div class="user-card">
+        <img src="../../static/images/trainee2.png" alt="Beginner's Course image">
+        <br>
+        <br>
+        <br>
+        <br>
+        <h2>Trainees</h2>
+        <p>Login as a trainee to access training materials.</p>
+        <a href="{% url 'traineelogin' %}" class="btn">Login</a>
+    </div>
+
+    <div class="user-card">
+        <img src="../../static/images/instructor.png" alt="Beginner's Course image">
+        <h2>Instructors</h2>
+        <p>Login as an instructor to manage training sessions.</p>
+        <button class="login-button">Login</button>
+    </div>
+</div>
+{% endblock content %}

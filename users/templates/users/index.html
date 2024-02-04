@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% load static %}
+  <title>Vantage Driving School</title>
+</head>
+<body>
+    <!-- Navigation -->
+  <style>
+    /* Reset styles */
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header styles */
+header {
+  background: rgb(238,238,238);
+background: linear-gradient(90deg, rgba(238,238,238,1) 0%, rgba(209,223,243,1) 7%, rgba(153,188,233,1) 16%, rgba(113,167,237,1) 24%, rgba(81,153,244,1) 30%, rgba(29,125,244,1) 50%, rgba(139,169,204,1) 100%);  
+  padding: 6px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  height: 50px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #333;
+  margin-left: 20px;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #ffffff;
+}
+
+/* Hero section styles */
+
+.hero {
+  background-image: url('../static/images/image5.png');
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-content {
+  text-align: center;
+  color: #000000;
+}
+
+.hero h1 {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #ff6633;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #ff6633;
+}
+
+/* Courses section styles */
+.courses {
+  background-color: #f8f8f8;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.courses h2 {
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.course-card {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.course-card img {
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.course-card h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.course-card p {
+  font-size: 16px;
+}
+
+/* About section styles */
+.about {
+  padding: 40px 20px;
+  text-align: center;
+  color: #fff;
+  background-color: #ffffff;
+}
+
+.about h2 {
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.about p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* Contact section styles */
+.contact {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.contact h2 {
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.contact form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.contact input,
+.contact textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.contact textarea {
+  height: 100px;
+}
+
+.contact button {
+  padding: 10px 20px;
+  background-color: #ff6633;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contact button:hover {
+  background-color: #e65100;
+}
+
+/* Footer styles */
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+}
+
+footer p {
+  font-size: 14px;
+}
+</style>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="../static/images/logo.png" alt="Vantage Driving School logo">
+      </div>
+      <ul>
+        <li><a href="">Home</a></li>
+        <li><a href="">Login</a></li>
+        <li><a href="">Courses</a></li>
+        <li><a href="">About Us</a></li>
+        <li><a href="">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Learn to drive with confidence</h1>
+      <p>Get professional driving lessons tailored to your needs</p>
+      <a href="#contact" class="btn">Get Started</a>
+    </div>
+  </section>
+  
+  <section id="courses" class="courses">
+    <h2>Our Courses</h2>
+    <div class="course-card">
+      <img src="" alt="Course 1 image">
+      <h3>Beginner's Course</h3>
+      <p>Perfect for first-time drivers</p>
+    </div>
+    <div class="course-card">
+      <img src="" alt="Course 2 image">
+      <h3>Advanced Course</h3>
+      <p>Take your driving skills to the next level</p>
+    </div>
+  </section>
+    <section id="about" class="about">
+      <h2>About Us</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus imperdiet tortor id felis feugiat, 
+      eget lacinia lorem mattis. Maecenas blandit porta tincidunt.</p>
+      <a href="#contact" class="btn">Learn More</a>
+
+      </section>  
+  <section id="contact" class="contact">
+    <h2>Contact Us</h2>
+    <form>
+      <input type="text" placeholder="Name">
+      <input type="email" placeholder="Email">
+      <textarea placeholder="Message"></textarea>
+      <button type="submit" class="btn">Send</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2024 Vantage Driving School. All rights reserved.</p>
+  </footer>
+
+  
+  
+
+</body>
+</html>

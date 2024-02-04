@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+<!-- #css style-->
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/vantage.css' %}">
+<title>VantageDrive - Home</title>
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome for social media icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+
+
+ <!-- Navigation -->
+ 
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">VantageDrive</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="">Home</a>
+        </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Login
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        
+            <a class="dropdown-item" href="instructor/instructorlogin">Instructor Login</a>
+            <a class="dropdown-item" href="trainee/traineelogin">Trainee Login</a>
+          </div>          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="">Contact Us</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Home Section -->
+  <section id="home">
+    <h1>Welcome to VantageDrive</h1>
+    <p>Together lets make our roads safer.</p>
+    <a href="" class="btn btn-primary">Get Started</a>
+  </section>
+
+  <!-- Social media icons -->
+  <ul class="social-icons">
+    <li><a href="#" target="_blank"><i class="fab fa-facebook"></i></a></li>
+    <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+    <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+    <!-- Add more social media icons as needed -->
+  </ul>
+
+  <!-- Footer -->
+ <footer class="py-3 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; VantageDrive 2024</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+ 
