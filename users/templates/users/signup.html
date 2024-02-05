@@ -1,25 +1,69 @@
 {% extends 'users/main.html' %}
 {% load crispy_forms_tags %}
-{% load static %}
 
 {% block content %}
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <div class="container larger-container" style="margin-top: 30px;">
-    <form action="" method="POST">
-      {% csrf_token %}
-      Join Now         
-      <fieldset class="form-group">
-        <legend class="border-bottom mb-4" style="color: rgb(25, 24, 24);"></legend>
-        {{ form|crispy }}
-      </fieldset>
-      <div class="form-group" id="signup-button">
-          <button class="btn">Sign Up</button>
-      </div>
-      <div class="form-group">
-          <small class="text-muted ml-3" >Already have an account? <a href="{% url 'login' %}">Sign In</a></small>
-      </div>
-    </form>
-    </div>
+{% load static %}
+<style>
+  body {
+    margin: 0;
+    padding: 0;  
+    min-height: 100vh;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+  }
+
+  .login-container {
+    border-radius: 10px;
+    backdrop-filter: blur(20px);
+    padding: 20px;
+    width: 500px;
+    
+  }
+  
+  .login-container .input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .login-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50; /* Green color, you can change it */
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+  }
+
+  .signup-link {
+    margin-top: 10px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <form action="" method="post">    
+    {% csrf_token %}
+    {{ form|crispy }}
+    
+    
+    <button class="btn" type="submit">Register</button>
+  </form>
+  <a class="signup-link">Already have an account?</a>
+  <a href="{% url 'login' %}">Click here to Log In</a></small>
+      
+</div>
+
+</body>
+    
 {% endblock content %}    
 
 

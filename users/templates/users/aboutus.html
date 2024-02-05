@@ -31,13 +31,43 @@
 
     
     .social-icons {
-        margin-top: 20px;
+        margin-top: 40px;
     }
 
     .social-icons a {
         display: inline-block;
-        margin-right: 30px;
+        margin-right: 15px;
         color: #0816b4; /* Set the text color to white */
+    }
+
+    .snapchat-icon {
+        margin-top: -18.5px;
+    }
+
+    .snapchat-icon a {
+        display: inline-block;
+        margin-right: -225px;
+        color: #f7f400; /* Set the text color to white */
+    }
+
+    .whatsapp-icon {
+        margin-top: -18.5px;
+    }
+
+    .whatsapp-icon a {
+        display: inline-block;
+        margin-right: -155px;
+        color: #40E45A; /* Set the text color to white */
+    }
+
+    .instagram-icon {
+        margin-top: -18.5px;
+    }
+
+    .instagram-icon a {
+        display: inline-block;
+        margin-right: -85px;
+        color: #8c41b5 /* Set the text color to white */
     }
 </style>
 
@@ -82,13 +112,20 @@
 
    <!-- Social media icons -->
   <ul class="social-icons">
-    <a href="https://www.facebook.com" onclick="openInNewTab(''); return false;"><i class="fab fa-facebook"></i></a>
-    <a href="https://www.twitter.com" onclick="openInNewTab(''); return false;"><i class="fab fa-twitter"></i></a>
-    <a href="https://whatsapp.com" onclick="openInNewTab(''); return false;"><i class="fab fa-whatsapp"></i></a>
-    <a href="https://instagram.com" onclick="openInNewTab(''); return false;"><i class="fab fa-instagram"></i></a>
-    <a href="https://snapchat.com" onclick="openInNewTab(''); return false;"><i class="fab fa-snapchat"></i></a>
+    <a href="https://www.facebook.com" return false;><i class="fab fa-facebook"></i></a>
+    <a href="https://www.twitter.com"  return false;><i class="fab fa-twitter"></i></a>
+    
 
+  <ul class="snapchat-icon">    
+    <a href="https://snapchat.com"  return false;><i class="fab fa-snapchat"></i></a>
+    
+  <ul class="whatsapp-icon">    
+    <a href="https://whatsapp.com"  return false;><i class="fab fa-whatsapp"></i></a>
+        
+  <ul class="instagram-icon">    
+    <a href="https://instagram.com" return false;><i class="fab fa-instagram"></i></a>      
 <script>
+
   function openInNewTab(url) {
     window.open(url, '_blank');
   }

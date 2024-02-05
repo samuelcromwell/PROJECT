@@ -12,7 +12,7 @@
   }
 
   .login-container {
-    color: transparent;
+
     border-radius: 10px;
     backdrop-filter: blur(20px);
     padding: 20px;
@@ -52,12 +52,13 @@
 <div class="login-container">
   <form action="" method="post">    
     {% csrf_token %}
-    {{ form.email }}
+    <label>Username</label>
+    {{ form.username }}
+    <label>Password</label>
     {{ form.password }}
 
-    {% comment %} <input class="input" type="text" placeholder="Username" name="username" required>
-    <input class="input" type="password" placeholder="Password" name="password" required> {% endcomment %}
-    <button type="submit">Login</button>
+    
+    <button type="submit">Login</button>        
   </form>
   <a href="{% url 'signup' %}" class="signup-link">Don't have an account yet? Register Here</a>
 </div>
