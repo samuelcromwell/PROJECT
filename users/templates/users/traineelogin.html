@@ -14,7 +14,7 @@
   .login-container {
 
     border-radius: 10px;
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(30px);
     padding: 20px;
     width: 420px;
     text-align: center;
@@ -51,6 +51,7 @@
 
 <div class="login-container">
   <form action="" method="post">    
+    <h2>Login </h2>
     {% csrf_token %}
     <label>Username</label>
     {{ form.username }}
