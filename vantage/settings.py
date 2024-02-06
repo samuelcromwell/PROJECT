@@ -48,7 +48,8 @@ INSTALLED_APPS = [
 
     #OWN APPS
     'crispy_forms',
-    'users'
+    'users',
+    'drive',
 ]
 
 MIDDLEWARE = [
@@ -144,7 +145,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'users/static')
+    os.path.join(BASE_DIR, 'users/static'),
+    os.path.join(BASE_DIR, 'drive/static'),
+    
+
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+

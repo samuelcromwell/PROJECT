@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from . forms import UserRegisterForm, UserLoginForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login as auth_login
 
 
 def home(request):
@@ -19,23 +19,24 @@ def courses(request):
 
 def traineelogin(request):
     if request.method == 'POST':
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
+        username = request.POST.get("username", '')
+        password = request.POST.get("password", '')
+        # username = form.cleaned_data['username']
+        # password = form.cleaned_data['password']
+        user = authenticate(request, username = username, password = password)
 
-            if user is not None:
-                login(request, user)
-                messages.success(request, 'Login successful.')
-                return redirect('aboutus')  
-        
-            else:
-                messages.error(request, 'Invalid username or password.')
-    else:
-        form = UserLoginForm()
+        if user is not None:
+            auth_login(request, user)
+            messages.success(request, f'Login successful.')
+            return redirect('/')  
+    
+        else:
+            messages.error(request, f'Invalid username or password.')
+    
+        messages.error(request, f'Fill in the form correctly.')
+    
 
-    return render(request, 'users/traineelogin.html', {'form': form})
+    return render(request, 'users/traineelogin.html') 
 
    
 def signup(request):
