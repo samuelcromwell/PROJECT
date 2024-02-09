@@ -10,7 +10,5 @@ urlpatterns = [
     path('signup/', views.signup, name="signup"),
     path('traineelogin/', views.traineelogin, name="traineelogin"),
     path('admin/', views.admin, name="admin"),
-]
-
-    #path('admin/', views.admin, name="admin"),
     #path('accounts/', include('django.contrib.auth.urls')),  # Include Django's authentication URLs
+]

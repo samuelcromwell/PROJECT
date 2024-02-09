@@ -12,15 +12,13 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
-            
-            
+            padding: 0;           
             height: 100vh;
         }
 
         .login-container {
-            background-color: #fff;
             padding: 20px;
+            backdrop-filter: blur(30px);
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
@@ -58,7 +56,7 @@
 <body>
     <div class="login-container">      
       <h2>Login</h2>
-      <form class="login-form" action="/drive/" method="post">
+      <form class="login-form" action="" method="post">
           {% csrf_token %}
           <!-- Username field -->
             <label>Username</label>
@@ -76,5 +74,5 @@
 </html>
 
 
-	{% endblock %}
+{% endblock %}
 

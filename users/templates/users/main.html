@@ -26,21 +26,22 @@
       </ul>
     </nav>
   </header>
+  
+  <div>
+   
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{message.tags}}">{{message}}
+        </div>
+      {% endfor %}
+    {% endif %}
+    
+  </div>
+
   <section class="hero">
-
-    <div>
-      <div class="container">
-        {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-{{message.tags}}">{{message}}</div>
-        {% endfor %}
-      {% endif %}
-      </div>
   {% block content %}
- 
-
   {% endblock content %}
-    </div>
+  
  
 
 </section>

@@ -3,8 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from . forms import UserRegisterForm, UserLoginForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login as auth_login
-
+from django.contrib.auth import authenticate, logout, login as auth_login # library for user authentication
 
 def home(request):
     return render(request, 'users/home.html')
@@ -18,6 +17,8 @@ def courses(request):
     return render(request, 'users/courses.html')
 
 def traineelogin(request):
+    username = ''
+    password = ''
     if request.method == 'POST':
         username = request.POST.get("username", '')
         password = request.POST.get("password", '')
@@ -34,8 +35,7 @@ def traineelogin(request):
             messages.error(request, f'Invalid username or password.')
     
         messages.error(request, f'Fill in the form correctly.')
-    
-
+   
     return render(request, 'users/traineelogin.html') 
 
    
@@ -45,7 +45,7 @@ def signup(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Hi {username}, your account has been created successfully')
+            messages.success(request, f'Hi {username}, your account has been created successfully, kindly login with your username and password')
             return redirect('home')        
     else:
          form = UserRegisterForm()
