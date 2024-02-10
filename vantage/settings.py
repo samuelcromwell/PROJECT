@@ -69,10 +69,14 @@ INTERNAL_IPS = [
 ]
 ROOT_URLCONF = 'vantage.urls'
 
+import os
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+        ],
+       
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -148,6 +152,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'users/static'),
     os.path.join(BASE_DIR, 'drive/static'),
+    os.path.join(BASE_DIR, 'trainee/static'),
     
 
 ]

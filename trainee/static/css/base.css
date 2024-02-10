@@ -17,7 +17,6 @@
   
   /* Header styles */
   header {
-    background-color: #e65100;
     background: rgb(238,238,238);
   background: linear-gradient(90deg, rgba(238,238,238,1) 0%, rgba(209,223,243,1) 7%, rgba(153,188,233,1) 16%, rgba(113,167,237,1) 24%, rgba(81,153,244,1) 30%, rgba(29,125,244,1) 50%, rgba(139,169,204,1) 100%);  
     padding: 6px;
@@ -211,7 +210,7 @@ margin-bottom: 10px;
   
   /* Footer styles */
   footer {
-    background-color: #333;
+    background-color: #f11515;
     color: #fff;
     text-align: center;
     padding: 10px;
