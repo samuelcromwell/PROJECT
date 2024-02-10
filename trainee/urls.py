@@ -4,7 +4,6 @@ from django.contrib import admin
 
 urlpatterns = [
     path('', views.base, name="base"),
-    path('maintest/', views.maintest, name="maintest"),
     
    
 ]

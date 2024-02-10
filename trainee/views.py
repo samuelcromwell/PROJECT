@@ -6,8 +6,6 @@ from django.contrib.auth import authenticate, login
 
 
 def base(request):
-    return render(request, 'drive/base1.html')
-def maintest(request):
-    return render(request, 'drive/maintest.html')
+    return render(request, 'trainee/base.html')
 
    
