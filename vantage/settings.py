@@ -153,10 +153,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'users/static'),
     os.path.join(BASE_DIR, 'drive/static'),
     os.path.join(BASE_DIR, 'trainee/static'),
-    
-
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+LOGIN_URL = 'login'
 

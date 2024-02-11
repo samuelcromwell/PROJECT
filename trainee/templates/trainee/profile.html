@@ -1,0 +1,21 @@
+{% extends 'trainee/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container"></div>
+    <h2>My username:</h2>
+    <h3>{{user.username}}</h3>
+    <br>
+    <h2>My email address:</h2>
+    <h3>{{user.email}}</h3>
+    <br>
+    <h2>Full names:</h2>
+    <h3>{{user.first_name}}</h3>
+    <h3>{{user.last_name}}</h3>
+    <br>
+    <h2>Date joined</h2>
+    <h3>{{user.date_joined}}</h3>
+    <br>
+    <h2>Last login</h2>
+    <h3>{{user.last_login}}</h3>   
+{% endblock %}

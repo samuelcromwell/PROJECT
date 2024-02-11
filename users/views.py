@@ -29,7 +29,7 @@ def traineelogin(request):
         if user is not None:
             auth_login(request, user)
             messages.success(request, f'Login successful.')
-            return redirect('/')  
+            return redirect('base')  
     
         else:
             messages.error(request, f'Invalid username or password.')
@@ -37,15 +37,14 @@ def traineelogin(request):
         messages.error(request, f'Fill in the form correctly.')
    
     return render(request, 'users/traineelogin.html') 
-
-   
+  
 def signup(request):
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Hi {username}, your account has been created successfully, kindly login with your username and password')
+            messages.success(request, f'Hi {username}, your account has been created successfully, kindly login with your new username and password')
             return redirect('home')        
     else:
          form = UserRegisterForm()

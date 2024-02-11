@@ -4,6 +4,7 @@ from django.contrib import admin
 
 urlpatterns = [
     path('', views.base, name="base"),
-    
-   
+    path('logout/',views.logoutUser, name="logout"),   
+    path('profile/',views.profile, name="profile"),   
+
 ]

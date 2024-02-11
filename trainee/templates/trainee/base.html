@@ -17,11 +17,14 @@
       <div class="logo">
         <img src="../../static/images/logo.png" alt="Vantage Driving School logo">
       </div>
-      <ul>
-        <li><a href="{}">Welcome back {{request.user.username}}</a></li>
-        <li><a href="{}">Logout</a></li>
-        
-        
+      <div class="salutation">
+        <h3>
+           Welcome back, {{request.user.username}}
+        </h3>
+      </div>
+      <ul>        
+        <li><a href="{% url 'profile' %}">My Profile</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>        
       </ul>
     </nav>
   </header>
@@ -37,12 +40,67 @@
     
   </div>
 
-  <section class="hero">
-  {% block content %}
-  {% endblock content %}
-  
- 
 
+  
+<section class="hero">    
+  <style>
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      width: 200px;
+      background-color: #f1f1f1;
+    }
+    
+    li a {
+      display: block;
+      color: #000;
+      padding: 8px 16px;
+      text-decoration: none;
+    }
+    
+    li a.active {
+      background-color: #04AA6D;
+      color: white;
+    }
+    
+    li a:hover:not(.active) {
+      background-color: #555;
+      color: white;
+    }
+    </style>
+    </head>
+    <body>
+    
+    
+    
+    <ul>
+      <br>
+      <li><a id="myScheduleLink" href="#" onclick="toggleActive(this)">My Schedule</a></li>
+      <script>
+        function toggleActive(link) {
+    
+        link.classList.toggle("active");
+   }
+    </script>
+
+      <br>
+      <li><a class="" href="">View Progress</a></li>
+      <br>
+      <li><a href="">Finances</a></li>
+      <br>
+      
+    </ul>
+    
+    </body>
+    </html>
+
+    <section class="container">
+      {% block content %}
+      {% endblock content %}
+    </section>    
+    
+  
 </section>
   <footer>
     <p>&copy; 2024 Vantage Driving School. All rights reserved.</p>
