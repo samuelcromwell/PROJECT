@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,7 @@
 
   <!-- #css style-->
   {% load static %}
-  <link rel="stylesheet" type="text/css" href="{% static '/css/base.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/instbase.css' %}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" integrity="sha384-rYyhvHsJQ7H1B1dGmmszu5P6LJoC8EdxjSAaPiHee3jYegCEWIDAp4tvjs2bZwWG" crossorigin="anonymous">
 
 
@@ -19,7 +20,7 @@
       </div>
       <div class="salutation">
         <h3>
-           Hello, {{request.user.username}}
+           Hello, Instructor {{request.user.username}}
         </h3>
       </div>
       <ul>        
@@ -75,19 +76,13 @@
     
     
     <ul>
-      <br>
-      <li><a id="myScheduleLink" href="#" onclick="toggleActive(this)">My Schedule</a></li>
-      <script>
-        function toggleActive(link) {
-    
-        link.classList.toggle("active");
-   }
+      
     </script>
    
       <br>
-      <li><a class="" href="">View Progress</a></li>
+      <li><a href="{% url 'calendar' %}">Set schedule</a></li>
       <br>
-      <li><a href="">Finances</a></li>
+      <li><a href="">Update Progress</a></li>
       <br>
       
     </ul>

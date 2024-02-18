@@ -66,7 +66,7 @@ def instructorlogin(request):
         if user is not None:
             auth_login(request, user)
             messages.success(request, f'Login successful.')
-            return redirect('base')  
+            return redirect('instbase')  
     
         else:
             messages.error(request, f'Invalid username or password.')
