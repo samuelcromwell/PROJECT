@@ -7,6 +7,4 @@ urlpatterns = [
     path('logout/',views.logoutUser, name="logout"),   
     path('profile/',views.profile, name="profile"),   
     path('calendar/',views.calendar, name="calendar"),
-    path('calendarpreview/',views.calbase, name="calbase"),
-
-]
+]    
