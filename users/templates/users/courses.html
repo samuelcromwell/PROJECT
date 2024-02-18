@@ -49,17 +49,20 @@
     }
 </style>
 
-<div class="course-card-container">
+
   <div class="course-card">
     <img src="../../static/images/image4.png" alt="Beginner's Course image">
+    <a href="{% url 'beginners' %}">
     <h3>Beginner's Course</h3>
     <p>Perfect for first-time drivers</p>
   </div>
 
   <div class="course-card">
     <img src="../../static/images/image3.jpg" alt="Advanced Course image">
+    <a href="{% url 'advanced' %}">
     <h3>Advanced Course</h3>
     <p>Take your driving skills to the next level</p>
+    </a>
   </div>
-</div>
+
 {% endblock content %}

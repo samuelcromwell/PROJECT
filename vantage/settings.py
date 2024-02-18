@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'users',
     'drive',
     'trainee',
+    'adminview',
+    'instructor',
 ]
 
 MIDDLEWARE = [
@@ -127,6 +129,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+AUTH_USER_MODEL = 'users.CustomUser'
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -153,6 +158,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'users/static'),
     os.path.join(BASE_DIR, 'drive/static'),
     os.path.join(BASE_DIR, 'trainee/static'),
+    os.path.join(BASE_DIR, 'instructor/static'),
+    os.path.join(BASE_DIR, 'adminview/static'),
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -15,6 +15,10 @@ def login(request):
     return render(request, 'users/login.html')
 def courses(request):
     return render(request, 'users/courses.html')
+def beginners(request):
+    return render(request, 'users/beginners.html')
+def advanced(request):
+    return render(request, 'users/advanced.html')
 
 def traineelogin(request):
     username = ''
@@ -50,3 +54,23 @@ def signup(request):
          form = UserRegisterForm()
 
     return render(request, 'users/signup.html', {'form': form})
+
+def instructorlogin(request):
+    username = ''
+    password = ''
+    if request.method == 'POST':
+        username = request.POST.get("username", '')
+        password = request.POST.get("password", '')
+        user = authenticate(request, username = username, password = password)
+
+        if user is not None:
+            auth_login(request, user)
+            messages.success(request, f'Login successful.')
+            return redirect('base')  
+    
+        else:
+            messages.error(request, f'Invalid username or password.')
+    
+        messages.error(request, f'Fill in the form correctly.')
+   
+    return render(request, 'users/instructorlogin.html') 
