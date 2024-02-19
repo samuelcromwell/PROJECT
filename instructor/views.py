@@ -10,8 +10,7 @@ from django.http import JsonResponse
 @login_required
 def instbase(request):
     return render(request, 'instructor/instbase.html')
-def profile(request):
-    return render(request, '')
+
 def logoutUser(request):
      logout(request)
      return redirect('login')
@@ -21,7 +20,7 @@ def calendar(request):
     context = {
         "events":all_events,
     }
-    return render(request, 'instructor/calendar.html', {'events': Events})
+    return render(request, 'instructor/calendar.html',context)
 
 def all_events(request):                                                                                                 
     all_events = Events.objects.all()                                                                                    
