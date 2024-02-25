@@ -156,7 +156,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'users/static'),
-    os.path.join(BASE_DIR, 'drive/static'),
     os.path.join(BASE_DIR, 'trainee/static'),
     os.path.join(BASE_DIR, 'instructor/static'),
     os.path.join(BASE_DIR, 'adminview/static'),

@@ -7,3 +7,8 @@ from django.contrib.auth import authenticate, login, logout
 
 def index(request):
     return render(request, 'adminview/index.html')
+def logoutUser(request):
+     logout(request)
+     return redirect('login') 
+def traineelist(request):
+     return render(request, 'adminview/traineelist.html') 

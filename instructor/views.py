@@ -5,9 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from instructor.models import Events
 from django.http import JsonResponse
+from datetime import datetime
 
 
-@login_required
 def instbase(request):
     return render(request, 'instructor/instbase.html')
 
@@ -26,14 +26,17 @@ def all_events(request):
     all_events = Events.objects.all()                                                                                    
     out = []                                                                                                             
     for event in all_events:                                                                                             
+        start_date = event.start.strftime("%Y-%m-%dT%H:%M:%S") if event.start else None
+        end_date = event.end.strftime("%Y-%m-%dT%H:%M:%S") if event.end else None
         out.append({                                                                                                     
             'title': event.name,                                                                                         
             'id': event.id,                                                                                              
-            'start': event.start.strftime("%m/%d/%Y, %H:%M:%S"),                                                         
-            'end': event.end.strftime("%m/%d/%Y, %H:%M:%S"),                                                             
+            'start': start_date,                                                                                         
+            'end': end_date,                                                             
         })                                                                                                               
                                                                                                                       
-    return JsonResponse(out, safe=False) 
+    return JsonResponse(out, safe=False)
+
 
 def add_event(request):
     start = request.GET.get("start", None)
@@ -43,6 +46,29 @@ def add_event(request):
     event.save()
     data = {}
     return JsonResponse(data)
+
+# def add_event(request):
+#     start = request.GET.get("start", None)
+#     end = request.GET.get("end", None)
+#     title = request.GET.get("title", None)
+
+#     # Convert start and end strings to datetime objects
+#     start_datetime = datetime.strptime(start, '%Y-%m-%dT%H:%M:%S')
+#     end_datetime = datetime.strptime(end, '%Y-%m-%dT%H:%M:%S')
+
+#     # Get the current datetime
+#     current_datetime = datetime.now()
+
+#     # Check if start or end date is before the current date
+#     if start_datetime < current_datetime or end_datetime < current_datetime:
+#         # If so, return an error response
+#         return JsonResponse({'error': 'Cannot add event to a date before the current day'}, status=400)
+
+#     # If the start and end dates are valid, proceed to create the event
+#     event = Events(name=str(title), start=start, end=end)
+#     event.save()
+#     data = {}
+#     return JsonResponse(data)
 
 def update(request):
     start = request.GET.get("start", None)
@@ -63,7 +89,4 @@ def remove(request):
     event.delete()
     data = {}
     return JsonResponse(data)
-
-
-
-   
+ 

@@ -7,8 +7,7 @@ from django.contrib.auth import authenticate, logout, login as auth_login # libr
 
 def home(request):
     return render(request, 'users/home.html')
-def admin(request):
-    return render(request, 'users/admin.html')
+
 def aboutus(request):
     return render(request, 'users/aboutus.html')
 def login(request):
@@ -42,14 +41,14 @@ def traineelogin(request):
    
     return render(request, 'users/traineelogin.html') 
   
-def signup(request):
+def signup(request):  
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Hi {username}, your account has been created successfully, kindly login with your new username and password')
-            return redirect('home')        
+            return redirect('traineelogin')        
     else:
          form = UserRegisterForm()
 
@@ -74,3 +73,20 @@ def instructorlogin(request):
         messages.error(request, f'Fill in the form correctly.')
    
     return render(request, 'users/instructorlogin.html') 
+
+def adminlogin(request):
+    if request.method == 'POST':
+        username = request.POST.get("username", '')
+        password = request.POST.get("password", '')
+        user = authenticate(request, username = username, password = password)
+
+        if user is not None:
+            auth_login(request, user)
+            return redirect('index')  
+    
+        else:
+            messages.error(request, f'Invalid username or password.')
+    
+        messages.error(request, f'Fill in the form correctly.')
+   
+    return render(request, 'users/adminlogin.html') 
