@@ -43,7 +43,7 @@ def traineelogin(request):
   
 def signup(request):  
     if request.method == "POST":
-        form = UserRegisterForm(request.POST)
+        form = UserRegisterForm({**request.POST, "role":"trainee"})
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')

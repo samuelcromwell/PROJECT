@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     #OWN APPS
     'crispy_forms',
     'users',
-    'drive',
+    # 'drive',
     'trainee',
     'adminview',
     'instructor',
@@ -164,4 +164,6 @@ STATICFILES_DIRS = [
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_URL = 'login'
+
+LOGOUT_URL = 'home'
 

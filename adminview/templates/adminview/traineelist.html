@@ -1,9 +1,19 @@
 {% extends 'adminview/index.html' %}
-{% load crispy_forms_tags %}
 
 {% block content %}
+    
     <div class="container"></div>  
-    <h2>My username:</h2>
-    <h3>{{user.username}}</h3>
+    <h2>All Trainees</h2>
+    {% for trainee in traineelist %}
+
+    <strong>{{ trainee.first_name }} {{ trainee.last_name }}</strong>
+    <ul>
+        
+        
+        <p>Date Joined: {{ trainee.date_joined }}</p>
+        
+    </ul>
+
+    {% endfor %}
         
 {% endblock %}
