@@ -39,17 +39,15 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    # 'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    #OWN APPS
     'crispy_forms',
     'users',
-    # 'drive',
     'trainee',
     'adminview',
     'instructor',
@@ -165,5 +163,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_URL = 'login'
 
-LOGOUT_URL = 'home'
+LOGOUT_REDIRECT_URL = '/admin/logout/'
+
 

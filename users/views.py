@@ -4,10 +4,15 @@ from . forms import UserRegisterForm, UserLoginForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, logout, login as auth_login # library for user authentication
+from django.contrib.auth.models import Group
+
+def custom_logout(request):
+    logout(request)
+    return redirect('home')  # Replace 'custom-logout-page-url' with the URL name or path of your desired logout page
+
 
 def home(request):
     return render(request, 'users/home.html')
-
 def aboutus(request):
     return render(request, 'users/aboutus.html')
 def login(request):
@@ -25,15 +30,17 @@ def traineelogin(request):
     if request.method == 'POST':
         username = request.POST.get("username", '')
         password = request.POST.get("password", '')
-        # username = form.cleaned_data['username']
-        # password = form.cleaned_data['password']
         user = authenticate(request, username = username, password = password)
 
         if user is not None:
-            auth_login(request, user)
-            messages.success(request, f'Login successful.')
-            return redirect('base')  
-    
+             # Check if the user belongs to the 'trainee' group
+            trainee_group = Group.objects.get(name='trainee')
+            if trainee_group in user.groups.all():
+                auth_login(request, user)
+                messages.success(request, f'Login successful.')
+                return redirect('base')  
+            else:
+                messages.error(request, f'Sorry, you are not authorized to login as a Trainee.')
         else:
             messages.error(request, f'Invalid username or password.')
     
@@ -43,12 +50,12 @@ def traineelogin(request):
   
 def signup(request):  
     if request.method == "POST":
-        form = UserRegisterForm({**request.POST, "role":"trainee"})
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Hi {username}, your account has been created successfully, kindly login with your new username and password')
-            return redirect('traineelogin')        
+            return redirect('login')        
     else:
          form = UserRegisterForm()
 
@@ -63,10 +70,15 @@ def instructorlogin(request):
         user = authenticate(request, username = username, password = password)
 
         if user is not None:
-            auth_login(request, user)
-            messages.success(request, f'Login successful.')
-            return redirect('instbase')  
-    
+             # Check if the user belongs to the 'instructor' group
+            instructor_group = Group.objects.get(name='instructor')
+            if instructor_group in user.groups.all():
+                auth_login(request, user)
+                messages.success(request, f'Login successful.')
+                return redirect('instbase')  
+            else:
+                messages.error(request, f'Sorry, you are not authorized to login as an Instructor.')
+        
         else:
             messages.error(request, f'Invalid username or password.')
     
@@ -81,8 +93,13 @@ def adminlogin(request):
         user = authenticate(request, username = username, password = password)
 
         if user is not None:
-            auth_login(request, user)
-            return redirect('index')  
+            # Check if the user belongs to the 'admin' group
+            admin_group = Group.objects.get(name='admin')
+            if admin_group in user.groups.all():
+                auth_login(request, user)
+                return redirect('index')  
+            else:
+                messages.error(request, f'Sorry, you are not authorized to login as an Admin.')
     
         else:
             messages.error(request, f'Invalid username or password.')
@@ -90,3 +107,4 @@ def adminlogin(request):
         messages.error(request, f'Fill in the form correctly.')
    
     return render(request, 'users/adminlogin.html') 
+

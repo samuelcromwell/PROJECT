@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from instructor.urls import views
+from django.contrib.auth import views as auth_views
+from django.shortcuts import redirect
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +31,6 @@ urlpatterns = [
     path('add_event/', views.add_event, name="add_event"), 
     path('update/', views.update, name="update"),
     path('remove/', views.remove, name="remove"),    
+    path('admin/logout/', lambda request: redirect(''), name='admin_logout'),
+
 ]
