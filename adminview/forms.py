@@ -1,19 +1,18 @@
 from django import forms
+from .models import TraineePayment
 
-class UserRegisterForm:
-    email = forms.EmailField()
-    
+class PaymentForm(forms.ModelForm):
+    amount_due = forms.DecimalField(initial=20000, disabled=True)
+    balance = forms.DecimalField(disabled=True, required=False)
+
     class Meta:
-        
-        fields = ['username','first_name', 'last_name', 'email', 'password1', 'password2']
+        model = TraineePayment
+        fields = ['trainee', 'amount_due', 'amount_paid', 'balance']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update({'class':'input','type':'text','placeholder':'Username'})
-        self.fields['first_name'].widget.attrs.update({'class':'input','type':'text','placeholder':'First Name'})
-        self.fields['last_name'].widget.attrs.update({'class':'input','type':'text','placeholder':'Last Name'})
-        self.fields['email'].widget.attrs.update({'class':'input','type':'text','placeholder':'Email address'})
-        self.fields['password1'].widget = forms.PasswordInput(attrs={'class': 'input', 'placeholder': 'Password 1'})    
-        self.fields['password2'].widget = forms.PasswordInput(attrs={'class': 'input', 'placeholder': 'Password 2'})    
-
-   
+    def clean(self):
+        cleaned_data = super().clean()
+        amount_due = cleaned_data.get('amount_due')
+        amount_paid = cleaned_data.get('amount_paid')
+        if amount_due is not None and amount_paid is not None:
+            cleaned_data['balance'] = amount_due - amount_paid
+        return cleaned_data
