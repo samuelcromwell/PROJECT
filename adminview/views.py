@@ -10,7 +10,7 @@ from django.contrib.auth.models import Group
 @login_required
 def index(request):
     return render(request, 'adminview/index.html')
-@login_required
+# @login_required
 def logoutUser(request):
      logout(request)
      return redirect('login') 

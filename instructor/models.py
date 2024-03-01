@@ -6,7 +6,7 @@ class Events(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     start = models.DateTimeField(null=True, blank=True)
     end = models.DateTimeField(null=True, blank=True)
-    instructorname = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
+    instructor = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
 
     def first_name(self):
         return self.instructor.first_name if self.instructor else None

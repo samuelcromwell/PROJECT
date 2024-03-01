@@ -6,11 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, logout, login as auth_login # library for user authentication
 from django.contrib.auth.models import Group
 
-def custom_logout(request):
-    logout(request)
-    return redirect('home')  # Replace 'custom-logout-page-url' with the URL name or path of your desired logout page
-
-
 def home(request):
     return render(request, 'users/home.html')
 def aboutus(request):

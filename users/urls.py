@@ -1,7 +1,6 @@
 from django.urls import path, include
 from . import views
 from django.contrib import admin
-from .views import custom_logout
 
 urlpatterns = [
     path('', views.home, name="home"),
@@ -15,6 +14,5 @@ urlpatterns = [
     path('instructorlogin/', views.instructorlogin, name="instructorlogin"),
     path('adminlogin/', views.adminlogin, name="adminlogin"),
     # path('accounts/', include('django.contrib.auth.urls')),  # Include Django's authentication URLs
-    path('admin/logout/', views.custom_logout, name="custom_logout"),    
 ]
 

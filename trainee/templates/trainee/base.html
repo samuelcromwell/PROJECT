@@ -1,109 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/style.css' %}" /> 
+    <!-- Fontawesome CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+  </head>
+  <body>
+    <nav class="sidebar">
+      <a href="#" class="logo">VantageDrive</a>
 
-  <!-- #css style-->
-  {% load static %}
-  <link rel="stylesheet" type="text/css" href="{% static '/css/base.css' %}">
-  
+      <div class="menu-content">
+        <ul class="menu-items">
+          
+          <li class="item">
+            <a href="{% url 'calendar' %}">My Schedule</a> 
+          </li>
+          <li class="item">
+            <a href="#">View Progress</a> 
+          </li>
+          <li class="item">
+            <a href="#">Finances</a>
+          </li>
+          <li class="item">
+            <a href="{% url 'profile' %}">My Profile</a> 
+          </li>
+          <li class="item">
+            <a href="{% url 'logout' %}">Logout</a> 
+          </li>
+          
 
-  <title>Vantage Driving School</title>
-</head>
-  <header>
-    <nav>
-      <div class="logo">
-        <img src="../../static/images/logo.png" alt="Vantage Driving School logo">
+          
+         
+
+          
+          
+        </ul>
       </div>
-      <div class="salutation">
-        <h3>
-           Hello, {{request.user.username}}
-        </h3>
-      </div>
-      <ul>        
-        <li><a href="{% url 'profile' %}">My Profile</a></li>
-        <li><a href="{% url 'logout' %}">Logout</a></li>        
-      </ul>
     </nav>
-  </header>
-  
-  <div>
-   
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-{{message.tags}}">{{message}}
-        </div>
-      {% endfor %}
-    {% endif %}
-    
-  </div>
 
+    <nav class="navbar">
+      <i class="fa-solid fa-bars" id="sidebar-close"></i>
+    </nav>
 
-  
-<section class="hero">    
-  <style>
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      width: 200px;
-      background-color: #f1f1f1;
-    }
-    
-    li a {
-      display: block;
-      color: #000;
-      padding: 8px 16px;
-      text-decoration: none;
-    }
-    
-    li a.active {
-      background-color: #04AA6D;
-      color: white;
-    }
-    
-    li a:hover:not(.active) {
-      background-color: #555;
-      color: white;
-    }
-    </style>
-    </head>
-    <body>
-    
-    
-    
-    <ul>
-      <br>
-      <li><a id="myScheduleLink" href="#" onclick="toggleActive(this)">My Schedule</a></li>
-      <script>
-        function toggleActive(link) {
-    
-        link.classList.toggle("active");
-   }
-    </script>
-   
-      <br>
-      <li><a class="" href="">View Progress</a></li>
-      <br>
-      <li><a href="">Finances</a></li>
-      <br>
-      
-    </ul>
-    
-    </body>
-    </html>
-
-    <section class="container">
-      {% block content %}
+    <main class="main">
+      <div class="container">
+        {% block content %}
       {% endblock content %}
-    </section>    
-    
-  
-</section>
-  <footer>
-    <p>&copy; 2024 Vantage Driving School. All rights reserved.</p>
-  </footer>
- 
-</body>
+      </div>
+    </main>
+
+    <script src="{% static '/js/script.js' %}"></script>
+  </body>
 </html>
