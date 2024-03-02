@@ -1,21 +1,46 @@
 {% extends 'trainee/base.html' %}
-{% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="container"></div>
-    <h2>My username:</h2>
-    <h3>{{user.username}}</h3>
+
+<div class="container">
+    <h2>My Profile Information</h2>
+    <table class="table" border="1">
+        
+        <tr>
+            <td>Username:</td>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <td>Email address:</td>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <td>Full names:</td>
+            <td>{{ user.first_name }} {{ user.last_name }}</td>
+        </tr>
+       
+        <tr>
+            <td>Date joined:</td>
+            <td>{{ user.date_joined }}</td>
+        </tr>
+        <tr>
+            <td>Last login:</td>
+            <td>{{ user.last_login }}</td>
+        </tr>
+        <tr>
+            <td>Date of Birth:</td>
+            <td>{{ user.date_of_birth }}</td>
+        </tr>
+    </table>
     <br>
-    <h2>My email address:</h2>
-    <h3>{{user.email}}</h3>
-    <br>
-    <h2>Full names:</h2>
-    <h3>{{user.first_name}}</h3>
-    <h3>{{user.last_name}}</h3>
-    <br>
-    <h2>Date joined</h2>
-    <h3>{{user.date_joined}}</h3>
-    <br>
-    <h2>Last login</h2>
-    <h3>{{user.last_login}}</h3>   
+    <form action="{% url 'edit' %}" method="get">
+        <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Edit Profile</button>
+    </form>
+    <br>       
+    <form action="{% url 'change' %}" method="get">
+        <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Change Password</button>
+    </form>    
+    
+    
+</div>
 {% endblock %}
