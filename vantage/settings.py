@@ -163,3 +163,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_URL = 'login'
 
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+
+LOGOUT_REDIRECT_URL = '/login'

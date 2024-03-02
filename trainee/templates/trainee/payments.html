@@ -1,0 +1,33 @@
+{% extends 'trainee/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>My Payments</h2>
+    <table class="table" border="1" style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th colspan="2" style="text-align: center; font-weight: bold; padding: 10px;">Installments</th>
+                <th colspan="2" style="text-align: center; font-weight: bold; padding: 10px;">Balances</th>
+            </tr>
+            
+        </thead>
+        <tbody>
+            {% for payment in trainee_payments %}
+            <tr>
+                <td style="font-weight: bold; padding: 10px;">Installment {{ forloop.counter }}</td>
+                <td style="padding: 10px;">{{ payment.amount_paid }}</td>
+                <td style="padding: 10px;">{{ payment.balance }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="margin-top: 20px;">
+        <p style="font-weight: bold;">Total Paid: {{ total_paid }}</p>
+        {% if current_balance <= 0 %}
+            <p style="font-weight: bold; color: green;">Current Balance: {{ current_balance }}</p>
+        {% else %}
+            <p style="font-weight: bold; color: rgb(208, 80, 80);">Current Balance: {{ current_balance }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
