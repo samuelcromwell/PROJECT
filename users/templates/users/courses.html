@@ -40,28 +40,36 @@
   }
   
   .view-button {
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+    background-color: #3d8ce1;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none; /* Remove underlines */
+    display: inline-block; /* Adjust to appear as a button */
+  }
+
+  /* Remove underline on hover */
+  .view-button:hover {
+    text-decoration: none;
+  }
 </style>
 
 
   <div class="course-card">
-    <img src="../../static/images/image4.png" alt="Beginner's Course image">
-    <a href="{% url 'beginners' %}">
-    <h3>Beginner's Course</h3>
-    <p>Perfect for first-time drivers</p>
+    <img src="../../static/images/Truck.png" alt="Truck">
+    <a href="{% url 'truck' %}" class="view-button">
+      <h3>Category C1(Light Truck)</h3>
+      <p>Take your driving skills to the next level</p>
+    </a>
   </div>
 
   <div class="course-card">
-    <img src="../../static/images/image3.jpg" alt="Advanced Course image">
-    <a href="{% url 'advanced' %}">
-    <h3>Advanced Course</h3>
-    <p>Take your driving skills to the next level</p>
+    <img src="../../static/images/Light .png" alt="Car">
+    <a href="{% url 'car' %}" class="view-button">
+      <h3>Category B1(Saloon Car)</h3>
+      <p>Perfect for first-time drivers</p>
     </a>
   </div>
 

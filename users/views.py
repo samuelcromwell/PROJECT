@@ -14,10 +14,10 @@ def login(request):
     return render(request, 'users/login.html')
 def courses(request):
     return render(request, 'users/courses.html')
-def beginners(request):
-    return render(request, 'users/beginners.html')
-def advanced(request):
-    return render(request, 'users/advanced.html')
+def truck(request):
+    return render(request, 'users/truck.html')
+def car(request):
+    return render(request, 'users/car.html')
 
 def traineelogin(request):
     username = ''

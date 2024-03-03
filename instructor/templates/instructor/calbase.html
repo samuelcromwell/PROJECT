@@ -8,17 +8,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
-
 </head>
 <body>
-<a href="{% url 'instbase' %}" class="btn">Back</a>   
+
  
 <div class="container">
- <div class="row">
-    <h4>Set schedule</h4> 
-    {% block content %}{% endblock %}
- </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h4 style="display: inline-block;">Set schedule</h4>
+        </div>
+        <div class="col-md-6 text-end">
+            <a href="{% url 'instbase' %}" class="btn btn-primary btn-sm">GO BACK</a>
+        </div>
+    </div>
 </div>
+<div class="container">
+    <div class="row">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
 <script>
    $(document).ready(function () {
        var calendar = $('#calendar').fullCalendar({
@@ -71,7 +80,6 @@
                    }
                });
            },
- 
            eventDrop: function (event) {
                var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
                var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
@@ -91,9 +99,7 @@
                    }
                });
            },
- 
            eventClick: function (event) {
-                    // window.location.href="{% url 'home' %}"
                if (confirm("Are you sure you want to remove it?")) {
                    var id = event.id;
                    $.ajax({
@@ -110,11 +116,9 @@
                        }
                    });
                }
-           },
- 
+           }
        });
    });
- 
 </script>
 </body>
 </html>
