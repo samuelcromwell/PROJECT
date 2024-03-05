@@ -6,4 +6,6 @@ urlpatterns = [
     path('', views.instbase, name="instbase"),
     path('logout/',views.logoutUser, name="logout"),      
     path('calendar/',views.calendar, name="calendar"),
+    path('progress/',views.progress, name="progress"),
+
 ]    

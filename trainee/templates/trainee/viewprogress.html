@@ -1,0 +1,12 @@
+{% extends 'trainee/base.html' %}
+
+{% block content %}
+<div class="container">
+    {% for progress in trainee_progress %}
+    <p>Course: {{ progress.course }}</p>
+    <p>Progress: {{ progress.progress_percentage }}%</p>
+{% empty %}
+    <p>No progress available</p>
+{% endfor %}
+
+{% endblock %}

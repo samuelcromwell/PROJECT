@@ -1,0 +1,91 @@
+{% extends 'trainee/base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Lesson</title>
+    <!-- Include any necessary CSS stylesheets or Bootstrap CDN links here -->
+</head>
+<body>
+    <h1>Book Lesson</h1>
+    <p>Please select the lesson date and time:</p>
+    <form id="lesson_form">
+        <label for="lesson_date">Lesson Date:</label>
+        <select id="lesson_date" name="lesson_date" required>
+            <option value="">Select Date</option>
+            <!-- Options will be populated dynamically using JavaScript -->
+        </select><br><br>
+        
+        <label for="lesson_time">Lesson Time:</label>
+        <select id="lesson_time" name="lesson_time" required>
+            <option value="">Select Time</option>
+            <!-- Options will be populated dynamically using JavaScript -->
+        </select><br><br>
+        
+        <!-- Include any additional form fields as needed -->
+        
+        <button type="submit">Book Lesson</button>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Fetch events from the server
+            $.ajax({
+                url: '/all_events', // Endpoint to fetch events from
+                method: 'GET',
+                success: function(data) {
+                    // Populate lesson date and time select options with event data
+                    var events = JSON.parse(data);
+                    var dates = events.map(function(event) {
+                        return event.start; // Assuming event start time is the lesson date
+                    });
+                    var uniqueDates = [...new Set(dates)]; // Get unique dates
+
+                    var dateSelect = document.getElementById('lesson_date');
+                    var timeSelect = document.getElementById('lesson_time');
+
+                    // Populate date select options
+                    uniqueDates.forEach(function(date) {
+                        var option = document.createElement('option');
+                        option.text = new Date(date).toDateString();
+                        option.value = date;
+                        dateSelect.add(option);
+                    });
+
+                    // When a date is selected, populate time select options with corresponding event times
+                    dateSelect.addEventListener('change', function() {
+                        var selectedDate = this.value;
+                        timeSelect.innerHTML = ''; // Clear existing options
+
+                        events.forEach(function(event) {
+                            if (event.start === selectedDate) {
+                                var option = document.createElement('option');
+                                option.text = event.title; // Assuming event title is the lesson time
+                                option.value = event.title;
+                                timeSelect.add(option);
+                            }
+                        });
+                    });
+                },
+                error: function() {
+                    console.error('Failed to fetch events');
+                }
+            });
+
+            // Form submission logic
+            $('#lesson_form').submit(function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                // Perform form submission or additional validation as needed
+                console.log(formData);
+                // Example: $.post('/book_lesson', formData, function(response) {...});
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

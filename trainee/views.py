@@ -3,12 +3,22 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Password
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from instructor.models import Progress
 from trainee.forms import EditProfileForm
 from adminview.models import TraineePayment
+from instructor.models import Events
 
 @login_required(login_url='traineelogin')
 def base(request):
     return render(request, 'trainee/base.html')
+
+@login_required(login_url='traineelogin')
+def viewprogress(request):
+    return render(request, 'trainee/viewprogress.html')
+
+@login_required(login_url='traineelogin')
+def book(request):
+    return render(request, 'trainee/book.html')
 
 @login_required(login_url='traineelogin')
 def profile(request):
@@ -79,6 +89,16 @@ def payments(request):
     }
     return render(request, 'trainee/payments.html', context)
 
+def viewprogress(request):
+    trainee_progress = Progress.objects.filter(trainee=request.user)
+    return render(request, 'trainee/viewprogress.html', {'trainee_progress': trainee_progress})
+
+def fullcalendar(request):
+    all_events = Events.objects.all()
+    context = {
+        "events":all_events,
+    }
+    return render(request, 'trainee/fullcalendar.html',context)
 
 # @login_required
 # def payments(request):

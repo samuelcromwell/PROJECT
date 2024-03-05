@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from instructor.models import Events
 from django.http import JsonResponse
 from datetime import datetime
-
+from .forms import ProgressUpdateForm
 
 def instbase(request):
     return render(request, 'instructor/instbase.html')
@@ -90,3 +90,16 @@ def remove(request):
     data = {}
     return JsonResponse(data)
  
+
+
+
+def progress(request):
+    if request.method == 'POST':
+        form = ProgressUpdateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Progress Updated')
+            return redirect('progress')       
+    else:
+        form = ProgressUpdateForm()
+    return render(request, 'instructor/progress.html', {'form': form})
