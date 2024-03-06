@@ -8,21 +8,18 @@ class Events(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     start = models.DateTimeField(null=True, blank=True)
     end = models.DateTimeField(null=True, blank=True)
-    instructor = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
+    
 
-    def first_name(self):
-        return self.instructor.first_name if self.instructor else None
-
+    
     class Meta:  
         db_table = "tblevents"
 
-
-
-class Course(models.Model):
-    name = models.CharField(max_length=100)
-    # Add other fields as needed
-
 class Progress(models.Model):
+    # trainee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'groups__name': 'trainee'}, related_name='trainee_payments')
     trainee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    # lesson_name = models.ForeignKey(Events, on_delete=models.CASCADE)  # ForeignKey to Events model
     progress_percentage = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"Progress for {self.trainee.username} - Lesson: {self.lesson_name.name}"
+

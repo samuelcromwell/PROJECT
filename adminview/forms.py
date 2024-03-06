@@ -1,18 +1,31 @@
 from django import forms
 from .models import TraineePayment
+from datetime import date
+from django.db.models import Sum
+from adminview import models
 
 class PaymentForm(forms.ModelForm):
-    amount_due = forms.DecimalField(initial=20000, disabled=True)
+    initial_fee = forms.DecimalField(initial=20000, disabled=True)
     balance = forms.DecimalField(disabled=True, required=False)
-
+    
     class Meta:
         model = TraineePayment
-        fields = ['trainee', 'amount_due', 'amount_paid', 'balance']
+        fields = ['trainee', 'initial_fee', 'amount_paid', 'balance']
 
     def clean(self):
         cleaned_data = super().clean()
-        amount_due = cleaned_data.get('amount_due')
+        initial_fee = cleaned_data.get('initial_fee')
         amount_paid = cleaned_data.get('amount_paid')
-        if amount_due is not None and amount_paid is not None:
-            cleaned_data['balance'] = amount_due - amount_paid
+        trainee = cleaned_data.get('trainee')
+
+        if trainee:
+            previous_payments = TraineePayment.objects.filter(trainee=trainee)
+            total_paid = previous_payments.aggregate(total_paid=Sum('amount_paid'))['total_paid'] or 0
+            previous_balance = initial_fee - total_paid
+            if previous_balance is not None:
+                cleaned_data['balance'] = previous_balance - amount_paid
+            else:
+                cleaned_data['balance'] = initial_fee - amount_paid
+
         return cleaned_data
+

@@ -47,29 +47,6 @@ def add_event(request):
     data = {}
     return JsonResponse(data)
 
-# def add_event(request):
-#     start = request.GET.get("start", None)
-#     end = request.GET.get("end", None)
-#     title = request.GET.get("title", None)
-
-#     # Convert start and end strings to datetime objects
-#     start_datetime = datetime.strptime(start, '%Y-%m-%dT%H:%M:%S')
-#     end_datetime = datetime.strptime(end, '%Y-%m-%dT%H:%M:%S')
-
-#     # Get the current datetime
-#     current_datetime = datetime.now()
-
-#     # Check if start or end date is before the current date
-#     if start_datetime < current_datetime or end_datetime < current_datetime:
-#         # If so, return an error response
-#         return JsonResponse({'error': 'Cannot add event to a date before the current day'}, status=400)
-
-#     # If the start and end dates are valid, proceed to create the event
-#     event = Events(name=str(title), start=start, end=end)
-#     event.save()
-#     data = {}
-#     return JsonResponse(data)
-
 def update(request):
     start = request.GET.get("start", None)
     end = request.GET.get("end", None)
