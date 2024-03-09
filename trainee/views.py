@@ -13,6 +13,10 @@ def base(request):
     return render(request, 'trainee/base.html')
 
 @login_required(login_url='traineelogin')
+def home(request):
+    return render(request, 'trainee/landing.html')
+
+@login_required(login_url='traineelogin')
 def viewprogress(request):
     return render(request, 'trainee/viewprogress.html')
 
@@ -89,10 +93,17 @@ def payments(request):
     }
     return render(request, 'trainee/payments.html', context)
 
+@login_required(login_url='traineelogin')
+def book(request):
+    events = Events.objects.all()
+    return render(request, 'trainee/book.html', {'events': events})        
+
+@login_required(login_url='traineelogin')
 def viewprogress(request):
     trainee_progress = Progress.objects.filter(trainee=request.user)
     return render(request, 'trainee/viewprogress.html', {'trainee_progress': trainee_progress})
 
+@login_required(login_url='traineelogin')
 def fullcalendar(request):
     all_events = Events.objects.all()
     context = {
@@ -100,10 +111,4 @@ def fullcalendar(request):
     }
     return render(request, 'trainee/fullcalendar.html',context)
 
-# @login_required
-# def payments(request):
-#     trainee_payments = TraineePayment.objects.filter(trainee=request.user)
-#     return render(request, 'trainee/payments.html', {'trainee_payments': trainee_payments})
 
-
-        

@@ -11,6 +11,9 @@ from .forms import ProgressUpdateForm
 def instbase(request):
     return render(request, 'instructor/instbase.html')
 
+def landing(request):
+    return render(request, 'instructor/landing.html')
+
 def logoutUser(request):
      logout(request)
      return redirect('login')

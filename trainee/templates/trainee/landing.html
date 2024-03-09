@@ -1,0 +1,18 @@
+{% extends 'trainee/base.html' %}
+
+{% block content %}
+<div class="container">
+
+    {% if request.user.is_authenticated %}
+          <h3>Welcome, {{ request.user.username }}</h3>
+          <h2>As a Trainee, you are able to:</h2>
+          <li> View your own schedule after booking your own lessons </li>
+          <li> View the Timetable set by the Instructors </li>
+          <li> Book lessons based on its availability </li>
+          <li> View your progress after the instructor has updated it </li>
+          <li> View your payments and the outstanding balance </li>
+          <li> View and edit your personal information and password </li>
+    {% endif %}
+    
+</div>    
+{% endblock %}

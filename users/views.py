@@ -33,7 +33,7 @@ def traineelogin(request):
             if trainee_group in user.groups.all():
                 auth_login(request, user)
                 # messages.success(request, f'Login successful.')
-                return redirect('base')  
+                return redirect('home')  
             else:
                 messages.error(request, f'Sorry, you are not authorized to login as a Trainee.')
                 return redirect('login')
@@ -50,7 +50,7 @@ def signup(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Hi {username}, your account has been created successfully, you will be able to login with your new username and password once your registration has been approved')
+            messages.success(request, f'Hi {username}, your account has been created successfully, you will be able to login with your new username and password once the admin assigns you to a group')
             return redirect('login')        
     else:
          form = UserRegisterForm()
@@ -71,7 +71,7 @@ def instructorlogin(request):
             if instructor_group in user.groups.all():
                 auth_login(request, user)
                 # messages.success(request, f'Login successful.')
-                return redirect('instbase')  
+                return redirect('landing')  
             else:
                 messages.error(request, f'Sorry, you are not authorized to login as an Instructor.')
                 return redirect('login')
@@ -81,26 +81,4 @@ def instructorlogin(request):
         messages.error(request, f'Fill in the form correctly.')
    
     return render(request, 'users/instructorlogin.html') 
-
-def adminlogin(request):
-    if request.method == 'POST':
-        username = request.POST.get("username", '')
-        password = request.POST.get("password", '')
-        user = authenticate(request, username = username, password = password)
-
-        if user is not None:
-            # Check if the user belongs to the 'admin' group
-            admin_group = Group.objects.get(name='admin')
-            if admin_group in user.groups.all():
-                auth_login(request, user)
-                return redirect('index')  
-            else:
-                messages.error(request, f'Sorry, you are not authorized to login as an Admin.')
-                return redirect('login')
-        else:
-            messages.error(request, f'Invalid username or password.')
-    
-        messages.error(request, f'Fill in the form correctly.')
-   
-    return render(request, 'users/adminlogin.html') 
 

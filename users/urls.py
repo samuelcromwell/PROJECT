@@ -12,7 +12,7 @@ urlpatterns = [
     path('truck/', views.truck, name="truck"),
     path('car/', views.car, name="car"),
     path('instructorlogin/', views.instructorlogin, name="instructorlogin"),
-    path('adminlogin/', views.adminlogin, name="adminlogin"),
+    # path('adminlogin/', views.adminlogin, name="adminlogin"),
     # path('accounts/', include('django.contrib.auth.urls')),  # Include Django's authentication URLs
 ]
 

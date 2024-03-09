@@ -1,0 +1,12 @@
+{% extends 'instructor/instbase.html' %}
+
+{% block content %}
+<div class="container">
+
+    {% if request.user.is_authenticated %}
+          <h3>Welcome Instructor {{ request.user.username }}</h3>
+          <li>As an Instructor, you are able to set the lesson schedule and also update trainee progress </li>
+    {% endif %}
+    
+</div>    
+{% endblock %}

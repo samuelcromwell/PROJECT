@@ -7,5 +7,6 @@ urlpatterns = [
     path('logout/',views.logoutUser, name="logout"),      
     path('calendar/',views.calendar, name="calendar"),
     path('progress/',views.progress, name="progress"),
+    path('home/',views.landing, name="landing"),
 
-]    
+]
