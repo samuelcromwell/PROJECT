@@ -1,0 +1,74 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <title>Show Info</title>
+  </head>
+ 
+  <body>
+    <div class="container">
+      
+              <h2>Report of Trainees</h2>
+          
+              <a href="{% url 'instbase' %}" class="btn btn-primary btn-sm">GO BACK</a>
+          </div>
+      </div>
+  </div>
+       
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Admission Id</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Second Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Last Login</th>
+                        <th scope="col">Date of Birth</th>
+                        <th scope="col">Date Joined</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+                     {% for user in users %}
+
+                        <tr>
+                            <td scope="col">{{ user.id }}</td>                            
+                            <td scope="col">{{ user.first_name }}</td>
+                            <td scope="col">{{ user.last_name }}</td>
+                            <td scope="col">{{ user.email }}</td>
+                            <td scope="col">{{ user.last_login }}</td>
+                            <td scope="col">{{ user.date_of_birth }}</td>
+                            <td scope="col">{{ user.date_joined }}</td>
+                        </tr>
+
+                      {% endfor %}
+                     
+                    </tbody>
+                  </table>
+
+            </div>
+        </div>
+
+        <a class="btn btn-primary m-2" href="{% url 'traineepdf' %}">Download List</a>
+
+    </div>
+
+
+
+
+  
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+  </body>
+</html>

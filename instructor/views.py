@@ -6,11 +6,19 @@ from django.contrib.auth import authenticate, login, logout
 from instructor.models import Events
 from django.http import JsonResponse
 from datetime import datetime
-from .forms import ProgressUpdateForm
+from django.contrib.auth.models import Group
+# **html2pdf imports
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.views.generic import ListView
+from users.models import CustomUser
 
+@login_required(login_url='instructorlogin')
 def instbase(request):
     return render(request, 'instructor/instbase.html')
 
+@login_required(login_url='instructorlogin')
 def landing(request):
     return render(request, 'instructor/landing.html')
 
@@ -18,6 +26,8 @@ def logoutUser(request):
      logout(request)
      return redirect('login')
 
+
+@login_required(login_url='instructorlogin')
 def calendar(request):
     all_events = Events.objects.all()
     context = {
@@ -69,17 +79,42 @@ def remove(request):
     event.delete()
     data = {}
     return JsonResponse(data)
- 
 
+@login_required(login_url='instructorlogin') 
+def show_trainees(request):
+    # Get the "trainee" group
+    trainee_group = Group.objects.get(name='trainee')
+    
+    # Get all users who belong to the "trainee" group
+    trainees = trainee_group.user_set.all()
+    
+    context = {
+        'users': trainees
+    }
 
+    return render(request, 'instructor/traineelist.html', context)
 
-def progress(request):
-    if request.method == 'POST':
-        form = ProgressUpdateForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f'Progress Updated')
-            return redirect('progress')       
-    else:
-        form = ProgressUpdateForm()
-    return render(request, 'instructor/progress.html', {'form': form})
+@login_required(login_url='instructorlogin')
+def trainee_pdf_create(request):
+    trainee_group = Group.objects.get(name='trainee')
+    trainees = trainee_group.user_set.all()
+
+    template_path = 'instructor/Traineelistpdf.html'
+
+    context = {'users': trainees}
+
+    response = HttpResponse(content_type='application/pdf')
+
+    response['Content-Disposition'] = 'filename="TraineeList.pdf"'
+
+    template = get_template(template_path)
+
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response

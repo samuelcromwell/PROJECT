@@ -3,10 +3,41 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Password
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from instructor.models import Progress
 from trainee.forms import EditProfileForm
 from adminview.models import TraineePayment
 from instructor.models import Events
+
+# **html2pdf imports
+# import os
+# from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+# from django.contrib.staticfiles import finders
+
+#sample view
+def render_pdf_view(request):
+    template_path = 'trainee/pdf1.html'
+    context = {'myvar': 'this is your template context'}
+    
+    # Render the HTML template
+    template = get_template(template_path)
+    html = template.render(context)
+    
+    # Create a Django response object with content type set to PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="report.pdf"'  # Change to 'inline'
+    
+    # Generate PDF
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    
+    # Check for errors
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    
+    return response
+
+
 
 @login_required(login_url='traineelogin')
 def base(request):
@@ -16,9 +47,7 @@ def base(request):
 def home(request):
     return render(request, 'trainee/landing.html')
 
-@login_required(login_url='traineelogin')
-def viewprogress(request):
-    return render(request, 'trainee/viewprogress.html')
+
 
 @login_required(login_url='traineelogin')
 def book(request):
@@ -98,10 +127,7 @@ def book(request):
     events = Events.objects.all()
     return render(request, 'trainee/book.html', {'events': events})        
 
-@login_required(login_url='traineelogin')
-def viewprogress(request):
-    trainee_progress = Progress.objects.filter(trainee=request.user)
-    return render(request, 'trainee/viewprogress.html', {'trainee_progress': trainee_progress})
+
 
 @login_required(login_url='traineelogin')
 def fullcalendar(request):

@@ -4,8 +4,8 @@
 <div class="container">
 
     {% if request.user.is_authenticated %}
-          <h3>Welcome, {{ request.user.username }}</h3>
-          <h2>As a Trainee, you are able to:</h2>
+          <h2>Welcome, {{ request.user.username }}</h2>
+          <h3>As a Trainee, you are able to:</h3>
           <li> View your own schedule after booking your own lessons </li>
           <li> View the Timetable set by the Instructors </li>
           <li> Book lessons based on its availability </li>

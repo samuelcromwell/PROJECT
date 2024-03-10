@@ -12,12 +12,5 @@ class Events(models.Model):
     class Meta:  
         db_table = "tblevents"
 
-class Progress(models.Model):
-    # trainee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'groups__name': 'trainee'}, related_name='trainee_payments')
-    trainee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    # lesson_name = models.ForeignKey(Events, on_delete=models.CASCADE)  # ForeignKey to Events model
-    progress_percentage = models.IntegerField(default=0)
 
-    def __str__(self):
-        return f"Progress for {self.trainee.username} - Lesson: {self.lesson_name.name}"
 

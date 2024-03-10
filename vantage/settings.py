@@ -145,7 +145,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -158,6 +158,22 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'instructor/static'),
     os.path.join(BASE_DIR, 'adminview/static'),
 ]
+
+
+
+#youtube video
+# STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+
+
+
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'users/static') 
+MEDIA_URL = '/media/'
+
+
+
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -178,3 +194,6 @@ EMAIL_PORT = 587  # Gmail SMTP port
 EMAIL_HOST_USER = 'cromwellsamuel3@gmail.com'  # Your Gmail email address
 EMAIL_HOST_PASSWORD = 'ldot jehk yuuo luhf'  # Your Gmail password or app-specific password
 EMAIL_USE_TLS = True  # Enable TLS encryption
+
+# Add this line to make sure xhtml2pdf can access the static files
+XHTML2PDF_STATIC_URL = STATIC_URL

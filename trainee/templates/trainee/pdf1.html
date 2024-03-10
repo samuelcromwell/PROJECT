@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML to PDF Preview</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div id="preview">{{myvar}}</div>
+    <!-- <button id="previewBtn">Preview</button> -->
+    <button id="downloadBtn" style="display: none;">Download PDF</button>
+
+    <script>
+        // Function to render HTML content in the preview area
+        function renderPreview(htmlContent) {
+            document.getElementById('preview').innerHTML = htmlContent;
+        }
+
+        // Function to convert HTML content to PDF and initiate download
+        function downloadPDF() {
+            const element = document.getElementById('preview');
+            html2pdf().from(element).save();
+        }
+
+        // Function to open the preview in a new browser page
+        function openPreview() {
+            const previewContent = document.getElementById('preview').innerHTML;
+            const newWindow = window.open('', '_blank');
+            newWindow.document.open();
+            newWindow.document.write('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Preview</title></head><body>' + previewContent + '</body></html>');
+            newWindow.document.close();
+            newWindow.document.getElementById('downloadBtn').style.display = 'block'; // Show the download button in the preview
+            newWindow.document.getElementById('downloadBtn').addEventListener('click', function() {
+                newWindow.close(); // Close the preview window when download button is clicked
+                downloadPDF(); // Initiate PDF download
+            });
+        }
+
+        // Example HTML content
+        const exampleHTML = `
+            <h1>Hello, World!</h1>
+            <p>This is a sample HTML content.</p>
+        `;
+
+        // Render the example HTML content on page load
+        renderPreview(exampleHTML);
+
+        // Attach event listener to the preview button
+        document.getElementById('previewBtn').addEventListener('click', openPreview);
+    </script>
+</body>
+</html>
