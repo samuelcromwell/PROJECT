@@ -1,7 +1,7 @@
 from django.urls import path, include
 from . import views
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-from.views import render_pdf_view
+
 
 urlpatterns = [
     path('', views.base, name="base"),
@@ -11,7 +11,6 @@ urlpatterns = [
     path('payments/',views.payments, name="payments"),   
     path('book/',views.book, name="book"),   
     path('home/',views.home, name="home"),   
-    path('report/',views.render_pdf_view, name="test-view"),   
     path('profile/edit',views.edit, name="edit"),   
     path('profile/changepassword',views.change, name="change"), 
     path('password_reset/', PasswordResetView.as_view(), name='password_reset'),
@@ -19,7 +18,7 @@ urlpatterns = [
     path('password_reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('password-reset-complete/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),   
     path('printpayments/',views.print_payments, name="printpayments"), 
-
-    
-   
+    path('printschedule/',views.print_schedule, name="printschedule"), 
+    path('book_event/<int:event_id>/', views.book_event, name='book_event'),
+    path('events/', views.showlessons, name='event_list'),   
 ]

@@ -1,5 +1,5 @@
 import os
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -9,36 +9,13 @@ from adminview.models import TraineePayment
 from instructor.models import Events
 from users.models import CustomUser
 from vantage import settings
-
+from datetime import date
 # **html2pdf imports
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.views.generic import ListView
-
-
-#sample view
-def render_pdf_view(request):
-    template_path = 'trainee/pdf1.html'
-    context = {'myvar': 'this is your template context'}
-    
-    # Render the HTML template
-    template = get_template(template_path)
-    html = template.render(context)
-    
-    # Create a Django response object with content type set to PDF
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'inline; filename="report.pdf"'  # Change to 'inline'
-    
-    # Generate PDF
-    pisa_status = pisa.CreatePDF(html, dest=response)
-    
-    # Check for errors
-    if pisa_status.err:
-       return HttpResponse('We had some errors <pre>' + html + '</pre>')
-    
-    return response
-
+from . models import Booking
 
 
 @login_required(login_url='traineelogin')
@@ -48,12 +25,6 @@ def base(request):
 @login_required(login_url='traineelogin')
 def home(request):
     return render(request, 'trainee/landing.html')
-
-
-
-@login_required(login_url='traineelogin')
-def book(request):
-    return render(request, 'trainee/book.html')
 
 @login_required(login_url='traineelogin')
 def profile(request):
@@ -125,10 +96,7 @@ def payments(request):
     }
     return render(request, 'trainee/payments.html', context)
 
-@login_required(login_url='traineelogin')
-def book(request):
-    events = Events.objects.all()
-    return render(request, 'trainee/book.html', {'events': events})        
+     
 
 
 
@@ -164,13 +132,17 @@ def print_payments(request):
             'balance': balance
         })
 
+     # Get the current date
+    today_date = date.today().strftime("%B %d, %Y")
+
     context = {
         'user': user,
         'payments': payments,
         'logo_path': os.path.join(settings.STATIC_ROOT, 'images', 'logo.png'),
         'trainee_payments': updated_payments,
         'total_paid': total_paid,
-        'current_balance': balance        
+        'current_balance': balance, 
+        'date': today_date  # Include the current date in the context   
     }
 
     response = HttpResponse(content_type='application/pdf')
@@ -186,4 +158,71 @@ def print_payments(request):
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
+@login_required(login_url='traineelogin')
+def book(request):
+    events = Events.objects.all()
+    return render(request, 'trainee/book.html', {'events': events})   
+
+
+
+def book_event(request, event_id):
+    event = get_object_or_404(Events, pk=event_id)
+    # Create a new booking entry associating the current trainee with the selected event
+    booking = Booking.objects.create(trainee=request.user, event=event)
+    # Optionally, you can perform additional actions here, such as sending a confirmation email to the trainee
+    return redirect('event_list')  # Redirect the user to a page showing the list of events
+
+
+
     
+
+@login_required(login_url='traineelogin')
+def showlessons(request):
+    # Get bookings for the logged-in user
+    user = request.user
+    bookings = Booking.objects.filter(trainee=user)
+
+    context = {
+        'bookings': bookings,
+    }
+
+    return render(request, 'trainee/schedule.html', context)
+
+
+
+def print_schedule(request):
+    # Get the currently logged-in user
+    user = request.user
+
+    # Fetch additional details from the CustomUser model
+    user = CustomUser.objects.get(pk=user.pk)  # Assuming CustomUser has a primary key 'pk'
+
+
+    # Retrieve bookings for the logged-in user
+    bookings = Booking.objects.filter(trainee=user)
+
+    template_path = 'trainee/schedulepdf.html'
+    # Render the template with the bookings data
+    # Get the current date
+    today_date = date.today().strftime("%B %d, %Y")
+
+    context = {
+        'user': user,
+        'bookings': bookings,
+        'logo_path': os.path.join(settings.STATIC_ROOT, 'images', 'logo.png'),
+        'date': today_date  # Include the current date in the context 
+    }
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="Schedule.pdf"'
+
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+

@@ -8,6 +8,7 @@
             <th>Starting Time</th>
             <th>Ending Time</th>
             <th>Lesson Name</th>
+            <th>Action</th> <!-- New column for the booking button -->
         </tr>
     </thead>
     <tbody>
@@ -16,6 +17,13 @@
             <td>{{ event.start }}</td>
             <td>{{ event.end }}</td>
             <td>{{ event.name }}</td>
+            <td>
+                <!-- Booking button -->
+                <form action="{% url 'book_event' event.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Book</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
