@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>List of all Trainees</title>
+  <title>List of all Lessons</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -41,30 +41,24 @@
 <body>
   <img class="logo" src="{{ logo_path }}" alt="Logo" style="width: 150px; height: auto;">
 
-  <h2 style="text-align: center;">LIST OF TRAINEES</h2>
+  <h2 style="text-align: center;">LIST OF LESSONS</h2>
 
   <table>
     <thead>
       <tr>
-        <th style="width: 55px;">Adm.Id</th>
-        <th>First Name</th>
-        <th>Second Name</th>
-        <th style="width: 160px;">Email</th>
-        <th>Last Login</th>
-        <th>Date of Birth</th>
-        <th>Date Joined</th>
+        <th scope="col">ID</th>
+        <th scope="col">Lesson Name</th>
+        <th scope="col">Date</th>
+        <th scope="col">Duration</th>
       </tr>
     </thead>
     <tbody>
-      {% for user in users %}
+        {% for event in events %}
         <tr>
-          <td>{{ user.id }}</td>
-          <td>{{ user.first_name }}</td>
-          <td>{{ user.last_name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.last_login }}</td>
-          <td>{{ user.date_of_birth }}</td>
-          <td>{{ user.date_joined }}</td>
+            <td>{{ event.id }}</td>                            
+            <td>{{ event.name }}</td>
+            <td>{{ event.start|date }}</td>
+            <td>{{ event.start|date:"H:i" }} - {{ event.end|date:"H:i" }}</td>
         </tr>
       {% endfor %}
     </tbody>

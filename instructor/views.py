@@ -124,3 +124,42 @@ def trainee_pdf_create(request):
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
+@login_required(login_url='instructorlogin') 
+def show_lessons(request):
+# Fetch events from the tblevents table
+    events = Events.objects.all()
+
+    context = {
+        'events': events
+    }
+
+    return render(request, 'instructor/lessons.html', context)
+
+@login_required(login_url='instructorlogin')
+def lessons_pdf_create(request):
+    events = Events.objects.all()
+
+    template_path = 'instructor/lessonspdf.html'
+
+    context = {
+        'events': events,
+        'logo_path': os.path.join(settings.STATIC_ROOT, 'images', 'logo.png')
+    
+     }
+
+    response = HttpResponse(content_type='application/pdf')
+
+    response['Content-Disposition'] = 'filename="LessonList.pdf"'
+
+    template = get_template(template_path)
+
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response

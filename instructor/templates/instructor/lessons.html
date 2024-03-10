@@ -22,7 +22,7 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <h3>List of Trainees</h3>
+            <h3>List of Lessons</h3>
         </div>
         <div class="col-md-6 text-end">
             <a href="{% url 'instbase' %}" class="btn btn-primary btn-lg">GO BACK</a>
@@ -37,26 +37,21 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Admission Id</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Second Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Last Login</th>
-                    <th scope="col">Date of Birth</th>
-                    <th scope="col">Date Joined</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Lesson Name</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Duration</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for user in users %}
+                {% for event in events %}
 
                     <tr>
-                        <td>{{ user.id }}</td>                            
-                        <td>{{ user.first_name }}</td>
-                        <td>{{ user.last_name }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.last_login }}</td>
-                        <td>{{ user.date_of_birth }}</td>
-                        <td>{{ user.date_joined }}</td>
+                        <td>{{ event.id }}</td>                            
+                        <td>{{ event.name }}</td>
+                        <td>{{ event.start|date }}</td>
+                        <td>{{ event.start|date:"H:i" }} - {{ event.end|date:"H:i" }}</td>
+
                     </tr>
 
                 {% endfor %}
@@ -67,7 +62,7 @@
         </div>
     </div>
 
-    <a class="btn btn-primary m-2" href="{% url 'traineepdf' %}">Download List</a>
+    <a class="btn btn-primary m-2" href="{% url 'lessonpdf' %}">Download List</a>
 
 </div>
 
