@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib import messages
@@ -6,14 +7,15 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from trainee.forms import EditProfileForm
 from adminview.models import TraineePayment
 from instructor.models import Events
+from users.models import CustomUser
+from vantage import settings
 
 # **html2pdf imports
-# import os
-# from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-# from django.contrib.staticfiles import finders
+from django.views.generic import ListView
+
 
 #sample view
 def render_pdf_view(request):
@@ -111,6 +113,7 @@ def payments(request):
     for payment in payments:
         balance -= payment.amount_paid
         updated_payments.append({
+            'payment_date': payment.payment_date,
             'amount_paid': payment.amount_paid,
             'balance': balance
         })
@@ -137,4 +140,50 @@ def fullcalendar(request):
     }
     return render(request, 'trainee/fullcalendar.html',context)
 
+@login_required(login_url='traineelogin')
+def print_payments(request):
+    # Get details of the currently logged-in user
+    user = request.user
+    payments = TraineePayment.objects.filter(trainee=user)
+    total_paid = sum(payment.amount_paid for payment in payments)
+    initial_balance = 20000  # Assuming initial balance is 20000    
 
+    # Fetch additional details from the CustomUser model
+    user = CustomUser.objects.get(pk=user.pk)  # Assuming CustomUser has a primary key 'pk'
+
+    template_path = 'trainee/paymentspdf.html'
+
+    # Calculate balance after each payment
+    balance = initial_balance
+    updated_payments = []
+    for payment in payments:
+        balance -= payment.amount_paid
+        updated_payments.append({
+            'payment_date': payment.payment_date,
+            'amount_paid': payment.amount_paid,
+            'balance': balance
+        })
+
+    context = {
+        'user': user,
+        'payments': payments,
+        'logo_path': os.path.join(settings.STATIC_ROOT, 'images', 'logo.png'),
+        'trainee_payments': updated_payments,
+        'total_paid': total_paid,
+        'current_balance': balance        
+    }
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="Payments.pdf"'
+
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+    
