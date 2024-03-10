@@ -21,4 +21,6 @@ urlpatterns = [
     path('printschedule/',views.print_schedule, name="printschedule"), 
     path('book_event/<int:event_id>/', views.book_event, name='book_event'),
     path('events/', views.showlessons, name='event_list'),   
+    path('printprofile/', views.print_profile, name='printprofile'),   
+
 ]

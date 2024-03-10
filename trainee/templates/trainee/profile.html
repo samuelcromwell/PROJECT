@@ -40,7 +40,10 @@
     <form action="{% url 'change' %}" method="get">
         <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Change Password</button>
     </form>    
-    
+    <br>
+    <form action="{% url 'printprofile' %}" method="get">
+        <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Print My Profile</button>
+    </form>
     
 </div>
 {% endblock %}

@@ -226,3 +226,37 @@ def print_schedule(request):
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
+
+def print_profile(request):
+    # Get the currently logged-in user
+    user = request.user
+
+    # Fetch additional details from the CustomUser model
+    user = CustomUser.objects.get(pk=user.pk)  # Assuming CustomUser has a primary key 'pk'
+
+
+    
+
+    template_path = 'trainee/profilepdf.html'
+    # Render the template with the bookings data
+    # Get the current date
+    today_date = date.today().strftime("%B %d, %Y")
+
+    context = {
+        'user': user,
+        'logo_path': os.path.join(settings.STATIC_ROOT, 'images', 'logo.png'),
+        'date': today_date  # Include the current date in the context 
+    }
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="MyProfile.pdf"'
+
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
