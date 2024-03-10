@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -13,6 +14,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.views.generic import ListView
 from users.models import CustomUser
+from vantage import settings
 
 @login_required(login_url='instructorlogin')
 def instbase(request):
@@ -86,7 +88,7 @@ def show_trainees(request):
     trainee_group = Group.objects.get(name='trainee')
     
     # Get all users who belong to the "trainee" group
-    trainees = trainee_group.user_set.all()
+    trainees = trainee_group.user_set.all().order_by('id')
     
     context = {
         'users': trainees
@@ -97,11 +99,15 @@ def show_trainees(request):
 @login_required(login_url='instructorlogin')
 def trainee_pdf_create(request):
     trainee_group = Group.objects.get(name='trainee')
-    trainees = trainee_group.user_set.all()
+    trainees = trainee_group.user_set.all().order_by('id')
 
-    template_path = 'instructor/Traineelistpdf.html'
+    template_path = 'instructor/traineelistpdf.html'
 
-    context = {'users': trainees}
+    context = {
+        'users': trainees,
+        'logo_path': os.path.join(settings.STATIC_ROOT, 'images', 'logo.png')
+    
+     }
 
     response = HttpResponse(content_type='application/pdf')
 

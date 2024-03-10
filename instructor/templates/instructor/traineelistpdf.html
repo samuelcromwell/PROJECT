@@ -1,57 +1,74 @@
-<!doctype html>
-{% load static %}
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>List of all Trainees</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
 
-    
-    <title>Show Info</title>
-  </head>
-  <body>
-    <h2>Report of Trainees</h2>
-         
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Adm.Id</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Second Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col"></th>
-                        <th scope="col">Date of Birth</th>
-                        <th scope="col">Date Joined</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-    
-                    {% for user in users %}
-    
-                    <tr>
-                        <th>{{ user.id }}</th>
-                        <td>{{ user.first_name }}</td>
-                        <td>{{ user.last_name }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.lastlogin }}</td>
-                        <td>{{ user.date_of_birth }}</td>
-                        <td>{{ user.date_joined }}</td>
-                    </tr>
-    
-                    {% endfor %}
-    
-                    </tbody>
-                </table>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
 
-            </div>
-        </div>
-    </div>
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
 
+    th {
+      background-color: #f2f2f2;
+    }
 
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
 
+    .logo {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 20px;
+    }
 
-  
+   
+  </style>
+</head>
+<body>
+  <img class="logo" src="{{ logo_path }}" alt="Logo" style="width: 150px; height: auto;">
 
-    
-  </body>
+  <h2 style="text-align: center;">Report of Trainees</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 55px;">Adm.Id</th>
+        <th>First Name</th>
+        <th>Second Name</th>
+        <th style="width: 160px;">Email</th>
+        <th>Last Login</th>
+        <th>Date of Birth</th>
+        <th>Date Joined</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.first_name }}</td>
+          <td>{{ user.last_name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.last_login }}</td>
+          <td>{{ user.date_of_birth }}</td>
+          <td>{{ user.date_joined }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</body>
 </html>
