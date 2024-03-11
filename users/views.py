@@ -82,3 +82,27 @@ def instructorlogin(request):
    
     return render(request, 'users/instructorlogin.html') 
 
+def adminviewlogin(request):
+    username = ''
+    password = ''
+    if request.method == 'POST':
+        username = request.POST.get("username", '')
+        password = request.POST.get("password", '')
+        user = authenticate(request, username = username, password = password)
+
+        if user is not None:
+             # Check if the user belongs to the 'admin' group
+            instructor_group = Group.objects.get(name='admin')
+            if instructor_group in user.groups.all():
+                auth_login(request, user)
+                # messages.success(request, f'Login successful.')
+                return redirect('adminbase')  
+            else:
+                messages.error(request, f'Sorry, you are not authorized to login as an Admin.')
+                return redirect('login')
+        else:
+            messages.error(request, f'Invalid username or password.')
+    
+        messages.error(request, f'Fill in the form correctly.')
+   
+    return render(request, 'users/adminviewlogin.html') 

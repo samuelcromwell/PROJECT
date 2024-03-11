@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Instructor Dashboard</title>
+    <title>Admin Dashboard</title>
     {% load static %}
     <link rel="stylesheet" href="{% static '/css/style.css' %}" /> 
     <!-- Fontawesome CDN Link -->
@@ -18,29 +18,21 @@
         <ul class="menu-items">
           
           <li class="item">
-            <a href="{% url 'calendar' %}">Set schedule</a> 
-          </li>
-          <li class="item">
-            <a href="#">Update Progress</a>
-          </li>
-          <li class="item">
-            <a href="{% url 'showtrainees' %}">List of Trainees</a>
-          </li>
-          <li class="item">
-            <a href="{% url 'showlessons' %}">Show Lessons</a>
+            <a href="#">View Schedule</a>
           </li>
           
+          
 
-          <!-- <li class="item">
+          <li class="item">
             <div class="submenu-item">
-              <span>First submenu</span>
+              <span>TRANSACTIONAL REPORTS</span>
               <i class="fa-solid fa-chevron-right"></i>
             </div>
 
             <ul class="menu-items submenu">
               <div class="menu-title">
                 <i class="fa-solid fa-chevron-left"></i>
-                Your submenu title
+                BACK
               </div>
               <li class="item">
                 <a href="#">First sublink</a>
@@ -55,23 +47,23 @@
           </li>
           <li class="item">
             <div class="submenu-item">
-              <span>Second submenu</span>
+              <span>GENERAL REPORTS</span>
               <i class="fa-solid fa-chevron-right"></i>
             </div>
 
             <ul class="menu-items submenu">
               <div class="menu-title">
                 <i class="fa-solid fa-chevron-left"></i>
-                Your submenu title
+                BACK
               </div>
               <li class="item">
-                <a href="#">Second sublink</a>
+                <a href="#">ALL USERS IN THE SYSTEM</a>
               </li>
               <li class="item">
-                <a href="#">Second sublink</a>
+                <a href="{% url 'trainees' %}">ALL REGISTERED TRAINEES</a>
               </li>
               <li class="item">
-                <a href="#">Second sublink</a>
+                <a href="#">ALL INSTRUCTORS</a>
               </li>
               <li class="item">
                 <a href="#">Second sublink</a>
@@ -87,21 +79,25 @@
                 <a href="#">Second sublink</a>
               </li>
             </ul>
-          </li> -->
+          </li>
 
          
 
-          
-         
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          
           <li class="item">
+            <!-- <a href="/admin/">Django Admin Dashboard</a> -->
+          </li>
+          <li class="item">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
             <a href="{% url 'logout' %}">Logout</a>
           </li>
         </ul>

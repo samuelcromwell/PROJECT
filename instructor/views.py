@@ -15,6 +15,7 @@ from xhtml2pdf import pisa
 from django.views.generic import ListView
 from users.models import CustomUser
 from vantage import settings
+from datetime import date
 
 @login_required(login_url='instructorlogin')
 def instbase(request):
@@ -103,9 +104,13 @@ def trainee_pdf_create(request):
 
     template_path = 'instructor/traineelistpdf.html'
 
+     # Get the current date
+    today_date = date.today().strftime("%B %d, %Y")
+
     context = {
         'users': trainees,
-        'logo_path': os.path.join(settings.STATIC_ROOT, 'images', 'logo.png')
+        'logo_path': os.path.join(settings.STATIC_ROOT, 'images', 'logo.png'),
+        'date': today_date  # Include the current date in the context  
     
      }
 
@@ -142,9 +147,13 @@ def lessons_pdf_create(request):
 
     template_path = 'instructor/lessonspdf.html'
 
+     # Get the current date
+    today_date = date.today().strftime("%B %d, %Y")
+
     context = {
         'events': events,
-        'logo_path': os.path.join(settings.STATIC_ROOT, 'images', 'logo.png')
+        'logo_path': os.path.join(settings.STATIC_ROOT, 'images', 'logo.png'),
+        'date': today_date  # Include the current date in the context  
     
      }
 
