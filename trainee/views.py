@@ -20,11 +20,11 @@ from . models import Booking
 
 @login_required(login_url='traineelogin')
 def base(request):
-    return render(request, 'trainee/base.html')
-
-@login_required(login_url='traineelogin')
-def home(request):
     return render(request, 'trainee/landing.html')
+
+# @login_required(login_url='traineelogin')
+# def traineehome(request):
+#     return render(request, 'trainee/landing.html')
 
 @login_required(login_url='traineelogin')
 def profile(request):
@@ -232,10 +232,7 @@ def print_profile(request):
     user = request.user
 
     # Fetch additional details from the CustomUser model
-    user = CustomUser.objects.get(pk=user.pk)  # Assuming CustomUser has a primary key 'pk'
-
-
-    
+    user = CustomUser.objects.get(pk=user.pk)  # Assuming CustomUser has a primary key 'pk'   
 
     template_path = 'trainee/profilepdf.html'
     # Render the template with the bookings data

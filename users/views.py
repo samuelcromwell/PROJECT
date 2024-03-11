@@ -33,7 +33,7 @@ def traineelogin(request):
             if trainee_group in user.groups.all():
                 auth_login(request, user)
                 # messages.success(request, f'Login successful.')
-                return redirect('home')  
+                return redirect('base')  
             else:
                 messages.error(request, f'Sorry, you are not authorized to login as a Trainee.')
                 return redirect('login')
