@@ -8,8 +8,8 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 
 class TraineePaymentAdmin(admin.ModelAdmin):
     form = PaymentForm
-    list_display = ('username', 'amount_paid', 'balance')
-    list_filter = ('trainee',)  # Add trainee as a filter option
+    list_display = ('username', 'amount_paid', 'balance', 'payment_date')
+    list_filter = ('trainee', 'balance')  # Add trainee as a filter option
 
     def username(self, obj):
         return obj.trainee.username
