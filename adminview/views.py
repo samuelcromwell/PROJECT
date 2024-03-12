@@ -65,3 +65,17 @@ def traineespdf(request):
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
+@login_required(login_url='adminviewlogin') 
+def traineelist(request):
+    # Get the "trainee" group
+    trainee_group = Group.objects.get(name='trainee')
+    
+    # Get all users who belong to the "trainee" group
+    trainees = trainee_group.user_set.all().order_by('id')
+    
+    context = {
+        'users': trainees
+    }
+
+    return render(request, 'adminview/traineelist.html', context)

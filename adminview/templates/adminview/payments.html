@@ -1,0 +1,68 @@
+{% extends 'adminview/pdfbase.html' %}
+{% load static %}
+{% block body %}
+
+<!-- Modal -->
+<div class="container">
+  <div class="container">
+    <div class="row">
+        <div class="col-md-12 logo-container">
+            <img class="logo" src="{% static 'images/logo.png' %}" alt="Logo" style="width: 150px; height: auto;">
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+          <h3>All Lessons</h3>
+      </div>
+      <div class="col-md-6 text-end">
+          <a href="{% url 'index' %}" class="btn btn-primary btn-md">GO BACK</a>
+      </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="addnewmember" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+         
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="submit">Submit</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+ 
+<hr style="border-top:1px solid #000; clear:both;"/>
+<table id = "table" class = "table table-bordered">
+    <thead class="alert-warning">
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Lesson Name</th>
+          <th scope="col">Date</th>
+          <th scope="col">Duration</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for payment in trainee_payments %}
+
+        <tr>
+            <td>{{ event.id }}</td>                            
+            <td>{{ event.name }}</td>
+            <td>{{ event.start|date }}</td>
+            <td>{{ event.start|date:"H:i" }} - {{ event.end|date:"H:i" }}</td>
+
+        </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

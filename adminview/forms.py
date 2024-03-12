@@ -1,8 +1,7 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from .models import TraineePayment
-from datetime import date
 from django.db.models import Sum
-from adminview import models
 
 class PaymentForm(forms.ModelForm):
     initial_fee = forms.DecimalField(initial=20000, disabled=True)
@@ -27,5 +26,7 @@ class PaymentForm(forms.ModelForm):
             else:
                 cleaned_data['balance'] = initial_fee - amount_paid
 
+            if cleaned_data['balance'] < 0:
+                raise ValidationError("The amount being paid is more than the balance due.")
+                
         return cleaned_data
-
