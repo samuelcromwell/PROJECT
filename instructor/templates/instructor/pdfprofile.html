@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Profile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    .logo {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 20px;
+    }
+
+   
+  </style>
+</head>
+<body>
+  <img class="logo" src="{{ logo_path }}" alt="Logo" style="width: 150px; height: auto;">
+
+  <h2 style="text-align: center;">MY PROFILE</h2>
+  
+  <!-- Display current date -->
+  <p style="text-align: right; font-weight: bold;">Date: {{ date }}</p>
+<div>
+   <!-- User details section -->
+    <h3>User Details</h3>
+    <p><strong>Adm ID:</strong> {{ user.id }}</p>
+    <p><strong>First Name:</strong> {{ user.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+</div>
+
+<table class="table" border="1">
+        
+    <tr>
+        <td><strong>Username:</strong></td>
+        <td>{{ user.username }}</td>
+    </tr>
+    <tr>
+        <td><strong>Email address:</strong></td>
+        <td>{{ user.email }}</td>
+    </tr>
+    <tr>
+        <td><strong>Full names:</strong></td>
+        <td>{{ user.first_name }} {{ user.last_name }}</td>
+    </tr>
+   
+    <tr>
+        <td><strong>Date joined:</strong></td>
+        <td>{{ user.date_joined }}</td>
+    </tr>
+    <tr>
+        <td><strong>Last login:</strong></td>
+        <td>{{ user.last_login }}</td>
+    </tr>
+    <tr>
+        <td><strong>Date of Birth:</strong></td>
+        <td>{{ user.date_of_birth }}</td>
+    </tr>
+</table>
+  <br>
+</body>
+</html>

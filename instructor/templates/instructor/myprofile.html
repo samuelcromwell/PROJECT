@@ -1,4 +1,4 @@
-{% extends 'trainee/base.html' %}
+{% extends 'instructor/instbase.html' %}
 
 {% block content %}
 <div class="container">
@@ -33,11 +33,11 @@
         </table>
     </div>
     <br>
-    <form action="{% url 'edit' %}" method="get">
+    <form action="{% url 'editprofile' %}" method="get">
         <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Edit Profile Information</button>
     </form>
     <br>       
-    <form action="{% url 'change' %}" method="get">
+    <form action="{% url 'changeprofile' %}" method="get">
         <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Change Password</button>
     </form>    
     <br>

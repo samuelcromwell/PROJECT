@@ -11,6 +11,10 @@ urlpatterns = [
     path('showlessons/', views.show_lessons, name='showlessons'),
     path('traineepdf/', views.trainee_pdf_create, name='traineepdf'),
     path('lessonpdf/', views.lessons_pdf_create, name='lessonpdf'),
+    path('myprofile/',views.myprofile, name="myprofile"),
+    path('myprofile/edit',views.editprofile, name="editprofile"), 
+    path('myprofile/changepassword',views.changeprofile, name="changeprofile"),
+    path('printprofile/', views.printprofile, name='printprofile'),
     
 
 ]

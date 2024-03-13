@@ -1,9 +1,9 @@
 import os
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from instructor.models import Events
 from django.http import JsonResponse
 from datetime import datetime
@@ -16,6 +16,8 @@ from django.views.generic import ListView
 from users.models import CustomUser
 from vantage import settings
 from datetime import date
+from trainee.models import Booking
+from instructor.forms import EditProfileForm
 
 @login_required(login_url='instructorlogin')
 def instbase(request):
@@ -24,6 +26,10 @@ def instbase(request):
 @login_required(login_url='instructorlogin')
 def landing(request):
     return render(request, 'instructor/landing.html')
+
+@login_required(login_url='instructorlogin')
+def myprofile(request):
+    return render(request, 'instructor/myprofile.html')
 
 def logoutUser(request):
      logout(request)
@@ -52,6 +58,24 @@ def all_events(request):
         })                                                                                                               
                                                                                                                       
     return JsonResponse(out, safe=False)
+
+def booked_events(request):
+    # Get the trainee's booked events
+    trainee_bookings = Booking.objects.filter(trainee=request.user)
+    
+    # Convert the booked events into the format expected by FullCalendar
+    booked_events_data = []
+    for booking in trainee_bookings:
+        start_date = booking.event.start.strftime("%Y-%m-%dT%H:%M:%S") if booking.event.start else None
+        end_date = booking.event.end.strftime("%Y-%m-%dT%H:%M:%S") if booking.event.end else None
+        booked_events_data.append({
+            'title': booking.event.name,  # Include the event name (title)
+            'id': booking.event.id,
+            'start': start_date,
+            'end': end_date,
+        })
+    
+    return JsonResponse(booked_events_data, safe=False)
 
 
 def add_event(request):
@@ -172,3 +196,69 @@ def lessons_pdf_create(request):
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
+@login_required(login_url='instructorlogin')
+def editprofile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+           
+            messages.success(request, f'Your details have been updated successfully')
+            return redirect('/instructor/myprofile')
+    else:
+        form = EditProfileForm(instance=request.user)
+        args = {'form':form}
+        return render (request, 'instructor/editprofile.html', args)
+
+@login_required(login_url='instructorlogin')
+def changeprofile(request): 
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Hi {username}, your password has been changed successfully')
+            return redirect('/instructor/myprofile')            
+        else:
+            messages.success(request, f'Your current password is wrong. Try again')
+            return redirect('/instructor/myprofile')
+    
+    else:
+        form = PasswordChangeForm(user=request.user)
+        args = {'form':form}
+        return render (request, 'instructor/changeprofile.html', args)
+    
+def printprofile(request):
+    # Get the currently logged-in user
+    user = request.user
+
+    # Fetch additional details from the CustomUser model
+    user = CustomUser.objects.get(pk=user.pk)  # Assuming CustomUser has a primary key 'pk'   
+
+    template_path = 'instructor/pdfprofile.html'
+    # Render the template with the bookings data
+    # Get the current date
+    today_date = date.today().strftime("%B %d, %Y")
+
+    context = {
+        'user': user,
+        'logo_path': os.path.join(settings.STATIC_ROOT, 'images', 'logo.png'),
+        'date': today_date  # Include the current date in the context 
+    }
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="InstructorProfile.pdf"'
+
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response    

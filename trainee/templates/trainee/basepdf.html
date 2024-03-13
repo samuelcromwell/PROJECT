@@ -10,6 +10,16 @@
 </head>
 <body>
 <div class="container">
+    <div>
+   
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{message.tags}}">{{message}}
+            </div>
+          {% endfor %}
+        {% endif %}
+        
+      </div>     
     {% block body %}
     {% endblock %}
 </div>    
@@ -48,9 +58,27 @@
                         });
                     }
                 },
-                'copy', 'excel', 'print'
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: ':not(:last-child)' // Exclude the last column (actions)
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':not(:last-child)' // Exclude the last column (actions)
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: ':not(:last-child)' // Exclude the last column (actions)
+                    }
+                }
             ]
         });
     });
 </script>
+
 </html>

@@ -21,5 +21,6 @@ urlpatterns = [
     path('book_event/<int:event_id>/', views.book_event, name='book_event'),
     path('events/', views.showlessons, name='event_list'),   
     path('printprofile/', views.print_profile, name='printprofile'),   
-
+    path('delete_booking/<int:booking_id>/', views.delete_booking, name='delete_booking'),
+    path('calendarschedule/',views.calendarschedule, name="calendarschedule"),   
 ]

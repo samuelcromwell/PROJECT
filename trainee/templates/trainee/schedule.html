@@ -1,36 +1,66 @@
-{% extends 'trainee/base.html' %}
+{% extends 'trainee/basepdf.html' %}
+{% load static %}
+{% block body %}
 
-{% block content %}
+<!-- Modal -->
 <div class="container">
-    <h2>My Booked Lessons</h2>
-    <br>
-    <table class="table" border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th style="text-align: center; font-weight: bold; padding: 10px;">Event ID</th>
-                <th style="text-align: center; font-weight: bold; padding: 10px;">Event Name</th>
-                <th style="text-align: center; font-weight: bold; padding: 10px;">Starting Time</th>
-                <th style="text-align: center; font-weight: bold; padding: 10px;">Duration</th>
-                <th style="text-align: center; font-weight: bold; padding: 10px;">Ending Time</th>
-                <th style="text-align: center; font-weight: bold; padding: 10px;">Booking Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for booking in bookings %}
-            <tr>
-                <td style="padding: 10px;">{{ booking.event_id }}</td>
-                <td style="padding: 10px;">{{ booking.event_name }}</td>
-                <td style="padding: 10px;">{{ booking.event_start }}</td>
-                <td style="padding: 10px;">{{ booking.duration }}</td>
-                <td style="padding: 10px;">{{ booking.event_end }}</td>
-                <td style="padding: 10px;">{{ booking.booking_date }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-<br>
-<form action="{% url 'printschedule' %}" method="get">
-    <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Print Schedule</button>
-</form>
+    <div class="container">
+      <div class="row">
+          <div class="col-md-12 logo-container">
+              <img class="logo" src="{% static 'images/logo.png' %}" alt="Logo" style="width: 150px; height: auto;">
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+            <h3>My Schedule</h3>
+        </div>
+        <div class="col-md-6 text-end">
+            <a href="{% url 'base' %}" class="btn btn-primary btn-md">GO BACK</a>
+        </div>
+        </div>
+        <div class="col-md-6 text-start">
+            <a href="{% url 'calendarschedule' %}" class="btn btn-primary btn-md">SHOW IN TIMETABLE</a>
+        </div>
+    </div>
+  </div>
+  
+  <hr style="border-top:1px solid #000; clear:both;"/>
+  <div class="container">
+    <div class="row">
+        <div class="col">
+            <table id="table" class="table table-bordered">
+                <thead class="alert-warning">
+                    <tr>
+                        <th style="text-align: center; font-weight: bold; padding: 10px;">Event ID</th>
+                        <th style="text-align: center; font-weight: bold; padding: 10px;">Event Name</th>
+                        <th style="text-align: center; font-weight: bold; padding: 10px;">Starting Time</th>
+                        <th style="text-align: center; font-weight: bold; padding: 10px;">Duration</th>
+                        <th style="text-align: center; font-weight: bold; padding: 10px;">Ending Time</th>
+                        <th style="text-align: center; font-weight: bold; padding: 10px;">Booking Date</th>
+                        <th style="text-align: center; font-weight: bold; padding: 10px; display: none;">Actions</th> <!-- Hide this column -->
+                    </tr>
+                </thead>
+                <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td style="padding: 10px;">{{ booking.event_id }}</td>
+                        <td style="padding: 10px;">{{ booking.event_name }}</td>
+                        <td style="padding: 10px;">{{ booking.event_start }}</td>
+                        <td style="padding: 10px;">{{ booking.duration }}</td>
+                        <td style="padding: 10px;">{{ booking.event_end }}</td>
+                        <td style="padding: 10px;">{{ booking.booking_date }}</td>
+                        <td style="text-align: center; padding: 10px;">
+                            <form action="{% url 'delete_booking' booking.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+  
 {% endblock %}

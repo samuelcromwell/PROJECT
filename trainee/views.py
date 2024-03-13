@@ -9,6 +9,7 @@ from adminview.models import TraineePayment
 from instructor.models import Events
 from users.models import CustomUser
 from vantage import settings
+from django.utils import timezone
 from datetime import date
 # **html2pdf imports
 from django.http import HttpResponse
@@ -17,14 +18,9 @@ from xhtml2pdf import pisa
 from django.views.generic import ListView
 from . models import Booking
 
-
 @login_required(login_url='traineelogin')
 def base(request):
     return render(request, 'trainee/landing.html')
-
-# @login_required(login_url='traineelogin')
-# def traineehome(request):
-#     return render(request, 'trainee/landing.html')
 
 @login_required(login_url='traineelogin')
 def profile(request):
@@ -94,9 +90,7 @@ def payments(request):
         'total_paid': total_paid,
         'current_balance': balance
     }
-    return render(request, 'trainee/payments.html', context)
-
-     
+    return render(request, 'trainee/payments.html', context)     
 
 
 
@@ -108,6 +102,28 @@ def fullcalendar(request):
     }
     return render(request, 'trainee/fullcalendar.html',context)
 
+@login_required(login_url='traineelogin')
+def calendarschedule(request):
+    # Get trainee's booked events
+    trainee_bookings = Booking.objects.filter(trainee=request.user)
+    
+    # Format events for FullCalendar
+    formatted_events = []
+    for booking in trainee_bookings:
+        formatted_event = {
+            'id': booking.event.id,
+            'name': booking.event_name,
+            'start': booking.event.start.isoformat(),
+            'end': booking.event.end.isoformat(),
+            # Add any other necessary fields
+        }
+        formatted_events.append(formatted_event)
+    
+    context = {
+        "events": formatted_events,
+    }
+    return render(request, 'trainee/calendarschedule.html', context)
+    
 @login_required(login_url='traineelogin')
 def print_payments(request):
     # Get details of the currently logged-in user
@@ -164,17 +180,27 @@ def book(request):
     return render(request, 'trainee/book.html', {'events': events})   
 
 
-
+@login_required(login_url='traineelogin')
 def book_event(request, event_id):
+    # Retrieve the event object based on the event ID
     event = get_object_or_404(Events, pk=event_id)
-    # Create a new booking entry associating the current trainee with the selected event
-    booking = Booking.objects.create(trainee=request.user, event=event)
-    # Optionally, you can perform additional actions here, such as sending a confirmation email to the trainee
-    return redirect('event_list')  # Redirect the user to a page showing the list of events
-
-
-
     
+    # Check if the trainee has already booked the event
+    if Booking.objects.filter(trainee=request.user, event=event).exists():
+        # Trainee has already booked the event, display an error message
+        messages.error(request, ' ⚠️ You have already booked this event ⚠️ ')
+        return redirect('event_list')  # Redirect to the event list page or wherever appropriate
+    
+    # Check if the event end datetime is after the current datetime
+    if event.end >= timezone.now():
+        # Create a new booking entry associating the current trainee with the selected event
+        booking = Booking.objects.create(trainee=request.user, event=event)
+        # Optionally, you can perform additional actions here, such as sending a confirmation email to the trainee
+        return redirect('event_list')  # Redirect the user to a page showing the list of events
+    else:
+        # If the event has already ended, display an error message
+        messages.error(request, ' ⚠️ You cannot book past events ⚠️ ')
+        return redirect('event_list')  # Redirect to the event list page or wherever appropriate
 
 @login_required(login_url='traineelogin')
 def showlessons(request):
@@ -257,3 +283,19 @@ def print_profile(request):
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
+def delete_booking(request, booking_id):
+    # Retrieve the booking object based on the booking ID
+    booking = get_object_or_404(Booking, pk=booking_id)
+    
+    # Check if the booking belongs to the current user or if the user has permission to delete bookings
+    # You may need to customize this logic based on your requirements
+    
+    # Delete the booking
+    booking.delete()
+    
+    # Optionally, you can add a success message to indicate that the booking has been deleted
+    # messages.success(request, 'Booking deleted successfully.')
+    
+    # Redirect the user to a page showing the list of bookings or any other appropriate page
+    return redirect('event_list')

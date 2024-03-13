@@ -1,4 +1,4 @@
-{% extends 'trainee/base.html' %}
+{% extends 'instructor/instbase.html' %}
 
 {% block content %}
 <div class="container">
@@ -9,7 +9,7 @@
         {{ form.as_p }}
         <br>
         <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Save</button>
-        <button a href="{% url 'profile' %}"  style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Cancel</button>
+        <button a href="{% url 'myprofile' %}"  style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Cancel</button>
         <!-- <class="button" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Cancel</a> -->
     </form>
 </div>    
