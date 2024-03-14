@@ -39,9 +39,30 @@
             selectHelper: true,
             editable: false,
             eventLimit: true,
-         
-        });
-    });
+
+            // eventClick: function(booking) {
+            //     if (confirm("Are you sure you want to remove this lesson?")) {
+            //         // Obtain the booking_id from the event object or from another appropriate source
+            //         var bookingId = booking.booking_id;  // Adjust this line based on where the booking_id is stored
+                    
+            //         var url = '/delete_booking/' + bookingId + '/';  // Construct the URL with the booking_id
+
+            //         // Create a form dynamically
+            //         var form = $('<form></form>');
+            //         form.attr('action', url);
+            //         form.attr('method', 'post');
+            //         form.append('{% csrf_token %}');  // Append CSRF token
+
+            //         // Append the form to the body and submit
+            //         $('body').append(form);
+            //         form.submit();
+            //     }
+            // }
+
+        }
+        )}
+    )       
+
  </script>
 </body>
 </html>

@@ -82,10 +82,15 @@ def add_event(request):
     start = request.GET.get("start", None)
     end = request.GET.get("end", None)
     title = request.GET.get("title", None)
-    event = Events(name=str(title), start=start, end=end)
-    event.save()
-    data = {}
-    return JsonResponse(data)
+    
+    # Check if user is authenticated
+    if request.user.is_authenticated:
+        instructor_id = request.user.id  # Get the instructor's ID from the logged-in user
+        event = Events(name=str(title), start=start, end=end, instructor_id=instructor_id)
+        event.save()
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False, 'message': 'User not authenticated'}, status=401)
 
 def update(request):
     start = request.GET.get("start", None)
