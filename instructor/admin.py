@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Events
+from .models import Event
 
 class EventAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'start', 'end')  # Fields to display in the admin interface
@@ -8,4 +8,4 @@ class EventAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False  # Disable the "Add event" button
 
-admin.site.register(Events, EventAdmin)
+admin.site.register(Event, EventAdmin)

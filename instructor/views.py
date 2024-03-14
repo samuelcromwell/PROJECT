@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Password
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from instructor.models import Events
+from instructor.models import Event
 from django.http import JsonResponse
 from datetime import datetime
 from django.contrib.auth.models import Group
@@ -38,14 +38,14 @@ def logoutUser(request):
 
 @login_required(login_url='instructorlogin')
 def calendar(request):
-    all_events = Events.objects.all()
+    all_events = Event.objects.all()
     context = {
         "events":all_events,
     }
     return render(request, 'instructor/calendar.html',context)
 
 def all_events(request):                                                                                                 
-    all_events = Events.objects.all()                                                                                    
+    all_events = Event.objects.all()                                                                                    
     out = []                                                                                                             
     for event in all_events:                                                                                             
         start_date = event.start.strftime("%Y-%m-%dT%H:%M:%S") if event.start else None
@@ -86,7 +86,7 @@ def add_event(request):
     # Check if user is authenticated
     if request.user.is_authenticated:
         instructor_id = request.user.id  # Get the instructor's ID from the logged-in user
-        event = Events(name=str(title), start=start, end=end, instructor_id=instructor_id)
+        event = Event(name=str(title), start=start, end=end, instructor_id=instructor_id)
         event.save()
         return JsonResponse({'success': True})
     else:
@@ -97,7 +97,7 @@ def update(request):
     end = request.GET.get("end", None)
     title = request.GET.get("title", None)
     id = request.GET.get("id", None)
-    event = Events.objects.get(id=id)
+    event = Event.objects.get(id=id)
     event.start = start
     event.end = end
     event.name = title
@@ -107,7 +107,7 @@ def update(request):
  
 def remove(request):
     id = request.GET.get("id", None)
-    event = Events.objects.get(id=id)
+    event = Event.objects.get(id=id)
     event.delete()
     data = {}
     return JsonResponse(data)
@@ -162,7 +162,7 @@ def trainee_pdf_create(request):
 @login_required(login_url='instructorlogin') 
 def show_lessons(request):
 # Fetch events from the tblevents table
-    events = Events.objects.all()
+    events = Event.objects.all()
 
     context = {
         'events': events
@@ -172,7 +172,7 @@ def show_lessons(request):
 
 @login_required(login_url='instructorlogin')
 def lessons_pdf_create(request):
-    events = Events.objects.all()
+    events = Event.objects.all()
 
     template_path = 'instructor/lessonspdf.html'
 

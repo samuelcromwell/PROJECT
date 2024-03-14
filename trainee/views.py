@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from trainee.forms import EditProfileForm
 from adminview.models import TraineePayment
-from instructor.models import Events
+from instructor.models import Event
 from users.models import CustomUser
 from vantage import settings
 from django.utils import timezone
@@ -96,7 +96,7 @@ def payments(request):
 
 @login_required(login_url='traineelogin')
 def fullcalendar(request):
-    all_events = Events.objects.all()
+    all_events = Event.objects.all()
     context = {
         "events":all_events,
     }
@@ -176,14 +176,14 @@ def print_payments(request):
 
 @login_required(login_url='traineelogin')
 def book(request):
-    events = Events.objects.all()
+    events = Event.objects.all()
     return render(request, 'trainee/book.html', {'events': events})   
 
 
 @login_required(login_url='traineelogin')
 def book_event(request, event_id):
     # Retrieve the event object based on the event ID
-    event = get_object_or_404(Events, pk=event_id)
+    event = get_object_or_404(Event, pk=event_id)
     
     # Check if the trainee has already booked the event
     if Booking.objects.filter(trainee=request.user, event=event).exists():
