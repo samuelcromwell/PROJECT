@@ -7,8 +7,8 @@ urlpatterns = [
     path('trainees/',views.trainees, name="trainees"), 
     path('traineespdf/',views.traineespdf, name="traineespdf"), 
     path('traineelist/',views.traineelist, name="traineelist"),
-    path('profile/',views.profile, name="profile"),
-    path('payments/',views.payments, name="payments"),
+    path('profileee/',views.profileee, name="profileee"),
+    path('paymentsss/',views.paymentsss, name="paymentsss"),
     
 
 ]

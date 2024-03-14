@@ -159,16 +159,24 @@ def trainee_pdf_create(request):
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
+from .models import Event, CustomUser  # Import the necessary models
+
 @login_required(login_url='instructorlogin') 
 def show_lessons(request):
-# Fetch events from the tblevents table
+    # Fetch events from the tblevents table
     events = Event.objects.all()
+
+    # Fetch instructor names for each event
+    for event in events:
+        instructor = CustomUser.objects.get(pk=event.instructor_id)
+        event.instructor_name = instructor.username
 
     context = {
         'events': events
     }
 
     return render(request, 'instructor/lessons.html', context)
+
 
 @login_required(login_url='instructorlogin')
 def lessons_pdf_create(request):

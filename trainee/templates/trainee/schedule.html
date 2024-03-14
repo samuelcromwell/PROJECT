@@ -37,11 +37,12 @@
                         <th style="text-align: center; font-weight: bold; padding: 10px;">Duration</th>
                         <th style="text-align: center; font-weight: bold; padding: 10px;">Ending Time</th>
                         <th style="text-align: center; font-weight: bold; padding: 10px;">Booking Date</th>
+                        <th style="text-align: center; font-weight: bold; padding: 10px;">Instructor Name</th> <!-- Added column for Instructor Name -->
                         <th style="text-align: center; font-weight: bold; padding: 10px; display: none;">Actions</th> <!-- Hide this column -->
                     </tr>
                 </thead>
                 <tbody>
-                {% for booking in bookings %}
+                    {% for booking in bookings %}
                     <tr>
                         <td style="padding: 10px;">{{ booking.event_id }}</td>
                         <td style="padding: 10px;">{{ booking.event_name }}</td>
@@ -49,6 +50,7 @@
                         <td style="padding: 10px;">{{ booking.duration }}</td>
                         <td style="padding: 10px;">{{ booking.event_end }}</td>
                         <td style="padding: 10px;">{{ booking.booking_date }}</td>
+                        <td style="padding: 10px;">{{ booking.instructor_name }}</td> <!-- Display instructor name -->
                         <td style="text-align: center; padding: 10px;">
                             <form action="{% url 'delete_booking' booking.id %}" method="post">
                                 {% csrf_token %}
@@ -56,9 +58,10 @@
                             </form>
                         </td>
                     </tr>
-                {% endfor %}
+                    {% endfor %}
                 </tbody>
             </table>
+            
         </div>
     </div>
   </div>

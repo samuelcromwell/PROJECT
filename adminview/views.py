@@ -31,8 +31,8 @@ def trainees(request):
 def index(request):
     return render(request, 'adminview/index.html')  
 
-def profile(request):
-    return render(request, 'adminview/profile.html')  
+def profileee(request):
+    return render(request, 'adminview/profileee.html')  
 
 def logoutUser(request):
     logout(request)
@@ -84,7 +84,7 @@ def traineelist(request):
 
     return render(request, 'adminview/traineelist.html', context)
 
-def payments(request):
+def paymentsss(request):
     trainee = request.user
     payments = TraineePayment.objects.filter(trainee=trainee)
     total_paid = sum(payment.amount_paid for payment in payments)

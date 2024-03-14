@@ -211,6 +211,12 @@ def showlessons(request):
     user = request.user
     bookings = Booking.objects.filter(trainee=user)
 
+    # Fetch instructor names for each booking
+    for booking in bookings:
+        event = Event.objects.get(pk=booking.event_id)
+        instructor = CustomUser.objects.get(pk=event.instructor_id)
+        booking.instructor_name = instructor.username
+
     context = {
         'bookings': bookings,
     }

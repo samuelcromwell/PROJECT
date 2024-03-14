@@ -42,7 +42,7 @@
            editable: true,
            eventLimit: true,
            select: function (start, end, allDay) {
-               var title = prompt("Enter Event Title");
+               var title = prompt("Enter Lesson Name");
                if (title) {
                    var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
                    var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
@@ -53,7 +53,7 @@
                        dataType: "json",
                        success: function (data) {
                            calendar.fullCalendar('refetchEvents');
-                           alert("Added Successfully");
+                           alert("Lesson Added Successfully");
                        },
                        error: function (data) {
                            alert('There is a problem!!!');
@@ -73,7 +73,7 @@
                    dataType: "json",
                    success: function (data) {
                        calendar.fullCalendar('refetchEvents');
-                       alert('Event Update');
+                       alert('Lesson Updated Successfully');
                    },
                    error: function (data) {
                        alert('There is a problem!!!');
@@ -92,7 +92,7 @@
                    dataType: "json",
                    success: function (data) {
                        calendar.fullCalendar('refetchEvents');
-                       alert('Event Update');
+                       alert('Lesson Updated Successfully');
                    },
                    error: function (data) {
                        alert('There is a problem!!!');
@@ -109,7 +109,7 @@
                        dataType: "json",
                        success: function (data) {
                            calendar.fullCalendar('refetchEvents');
-                           alert('Event Removed');
+                           alert('Lesson Removed Successfully');
                        },
                        error: function (data) {
                            alert('There is a problem!!!');

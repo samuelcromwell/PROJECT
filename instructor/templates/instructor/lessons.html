@@ -42,26 +42,26 @@
 </div>
  
 <hr style="border-top:1px solid #000; clear:both;"/>
-<table id = "table" class = "table table-bordered">
-    <thead class="alert-warning">
-        <tr>
+<table id="table" class="table table-bordered">
+  <thead class="alert-warning">
+      <tr>
           <th scope="col">Id</th>
           <th scope="col">Lesson Name</th>
           <th scope="col">Date</th>
           <th scope="col">Duration</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for event in events %}
-
-        <tr>
-            <td>{{ event.id }}</td>                            
-            <td>{{ event.name }}</td>
-            <td>{{ event.start|date }}</td>
-            <td>{{ event.start|date:"H:i" }} - {{ event.end|date:"H:i" }}</td>
-
-        </tr>
-
+          <th scope="col">Instructor Name</th> <!-- Add this column -->
+      </tr>
+  </thead>
+  <tbody>
+      {% for event in events %}
+      <tr>
+          <td>{{ event.id }}</td>                            
+          <td>{{ event.name }}</td>
+          <td>{{ event.start|date }}</td>
+          <td>{{ event.start|date:"H:i" }} - {{ event.end|date:"H:i" }}</td>
+          <td>{{ event.instructor_name }}</td> <!-- Display instructor name -->
+      </tr>
+      
     {% endfor %}
     </tbody>
 </table>

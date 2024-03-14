@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'trainee',
     'adminview',
     'instructor',
+    'payments',
 ]
 
 MIDDLEWARE = [
