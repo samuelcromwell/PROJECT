@@ -1,0 +1,48 @@
+{% extends 'adminview/index.html' %}
+
+{% block content %}
+<div class="container">
+    <br>
+    <h2>My Profile</h2>
+    <div style="overflow-x:auto;">
+        <table class="table" style="border-collapse: collapse; width: 100%;">
+            <tr>
+                <td style="border: 1px solid #dddddd; padding: 8px;">Username:</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #dddddd; padding: 8px;">Email address:</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #dddddd; padding: 8px;">Full names:</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">{{ user.first_name }} {{ user.last_name }}</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #dddddd; padding: 8px;">Date joined:</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">{{ user.date_joined }}</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #dddddd; padding: 8px;">Last login:</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">{{ user.last_login }}</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #dddddd; padding: 8px;">Date of Birth:</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">{{ user.date_of_birth }}</td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <form action="{% url 'edit' %}" method="get">
+        <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Edit Profile Information</button>
+    </form>
+    <br>       
+    <form action="{% url 'change' %}" method="get">
+        <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Change Password</button>
+    </form>    
+    <br>
+    <form action="{% url 'printprofile' %}" method="get">
+        <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Print My Profile</button>
+    </form>
+</div>
+{% endblock %}

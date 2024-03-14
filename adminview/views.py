@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from adminview.models import TraineePayment
 from users.models import CustomUser
 from django.contrib.auth.models import Group
 import os
@@ -29,6 +30,9 @@ def trainees(request):
 
 def index(request):
     return render(request, 'adminview/index.html')  
+
+def profile(request):
+    return render(request, 'adminview/profile.html')  
 
 def logoutUser(request):
     logout(request)
@@ -79,3 +83,27 @@ def traineelist(request):
     }
 
     return render(request, 'adminview/traineelist.html', context)
+
+def payments(request):
+    trainee = request.user
+    payments = TraineePayment.objects.filter(trainee=trainee)
+    total_paid = sum(payment.amount_paid for payment in payments)
+    initial_balance = 20000  # Assuming initial balance is 20000
+
+    # Calculate balance after each payment
+    balance = initial_balance
+    updated_payments = []
+    for payment in payments:
+        balance -= payment.amount_paid
+        updated_payments.append({
+            'payment_date': payment.payment_date,
+            'amount_paid': payment.amount_paid,
+            'balance': balance
+        })
+
+    context = {
+        'trainee_payments': updated_payments,
+        'total_paid': total_paid,
+        'current_balance': balance
+    }
+    return render(request, 'adminview/payments.html', context) 
