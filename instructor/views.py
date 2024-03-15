@@ -31,6 +31,15 @@ def landing(request):
 def myprofile(request):
     return render(request, 'instructor/myprofile.html')
 
+def progress(request):
+    # Fetch distinct trainees who have bookings
+    trainees_with_bookings = Booking.objects.values_list('trainee', flat=True).distinct()
+    
+    # Fetch the corresponding users
+    trainees = CustomUser.objects.filter(id__in=trainees_with_bookings)
+
+    return render(request, 'instructor/progress.html', {'trainees': trainees})
+
 def logoutUser(request):
      logout(request)
      return redirect('login')
@@ -275,3 +284,8 @@ def printprofile(request):
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response    
+
+def trainee_events(request, trainee_id):
+    # Retrieve the trainee's bookings from the database
+    bookings = Booking.objects.filter(trainee_id=trainee_id)
+    return render(request, 'instructor/trainee_events.html', {'bookings': bookings})

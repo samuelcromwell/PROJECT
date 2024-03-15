@@ -1,10 +1,61 @@
-{% extends 'instructor/instbase.html' %}
+{% extends 'instructor/pdfbase.html' %}
+{% load static %}
+{% block body %}
+<style>
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+    }
 
-{% block content %}
+    .styled-table th, .styled-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    .styled-table th {
+        background-color: #f2f2f2;
+    }
+
+    .styled-table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .styled-table tr:hover {
+        background-color: #ddd;
+    }
+</style>
 <div class="container">
-    <form method="post">
-        
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Update Progress</h2>
+        </div>
+        <div class="col-md-6 text-end">
+            <a href="{% url 'instbase' %}" class="btn btn-primary btn-md">GO BACK</a>
+        </div>
+    </div>
+    <form method="post" action="#"> <!-- Modify form action to point to the new page -->
+        {% csrf_token %}
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Action</th> <!-- New column for action buttons -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for trainee in trainees %}
+                <tr>
+                    <td>{{ trainee.id }}</td>
+                    <td>{{ trainee.username }}</td>
+                    <td><a href="{% url 'trainee_events' trainee.id %}" class="btn btn-primary btn-sm">Update</a></td> <!-- Button for updating progress -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
     </form>
-    
-</div>    
+</div>
 {% endblock %}
