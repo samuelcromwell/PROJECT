@@ -9,7 +9,7 @@
 	<!-- My CSS
 	<link rel="stylesheet" href="style.css"> -->
 
-	<title>AdminHub</title>
+	<title>TraineeView</title>
   {% load static %}
   <link rel="stylesheet" href="{% static '/css/styless.css' %}" />
 </head>
@@ -20,10 +20,10 @@
 	<section id="sidebar">
 		<a href="#" class="brand">
 			<i class='bx bxs-smile'></i>
-			<span class="text">AdminHub</span>
+			<span class="text">TraineeView</span>
 		</a>
 		<ul class="side-menu top">
-			<li class="active">
+			<li>
 				<a href="#">
 					<i class='bx bxs-dashboard' ></i>
 					<span class="text">Dashboard</span>
@@ -55,12 +55,12 @@
 			</li>
 		</ul>
 		<ul class="side-menu">
-			<li>
+			<!-- <li>
 				<a href="#">
 					<i class='bx bxs-cog' ></i>
 					<span class="text">Settings</span>
 				</a>
-			</li>
+			</li> -->
 			<li>
 				<a href="{% url 'logout' %}" class="logout">
 					<i class='bx bxs-log-out-circle' ></i>

@@ -590,3 +590,33 @@ body {
 		min-width: 420px;
 	}
 }
+
+#sidebar_board {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 280px;
+	height: 56px;
+	background: var(--light);
+	z-index: 2000;
+	font-family: var(--lato);
+}
+#sidebar_board .brand {
+	font-size: 24px;
+	font-weight: 700;
+	height: 56px;
+	display: flex;
+	align-items: center;
+	color: var(--blue);
+	position: sticky;
+	top: 0;
+	left: 0;
+	background: var(--light);
+	z-index: 500;
+	box-sizing: content-box;
+}
+#sidebar_board .brand .bx {
+	min-width: 60px;
+	display: flex;
+	justify-content: center;
+}

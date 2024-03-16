@@ -237,3 +237,5 @@ MPESA_INITIATOR_USERNAME = 'testapi'
 # Plaintext password for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
 
 MPESA_INITIATOR_SECURITY_CREDENTIAL = 'Safaricom999!*!'
+
+TIME_ZONE = 'Africa/Nairobi'
