@@ -308,3 +308,50 @@ def delete_booking(request, booking_id):
     
     # Redirect the user to a page showing the list of bookings or any other appropriate page
     return redirect('event_list')
+
+
+@login_required(login_url='traineelogin')
+def viewprogress(request):
+     # Get lessons for the logged-in user
+    user = request.user
+    bookings = Booking.objects.filter(trainee=user)
+
+    # Fetch instructor names for each lesson
+    for booking in bookings:
+        event = Event.objects.get(pk=booking.event_id)
+        instructor = CustomUser.objects.get(pk=event.instructor_id)
+        booking.instructor_name = instructor.username
+
+    context = {
+        'bookings': bookings,
+    }
+    return render(request, 'trainee/viewprogress.html', context)  
+
+def piechart(request):
+    # Assuming the logged-in user is accessed through request.user
+    logged_in_trainee = request.user
+
+    # Querying the database to get scheduled and completed lesson status for the logged-in trainee
+    scheduled_lessons = Booking.objects.filter(trainee=logged_in_trainee, status='Scheduled').count()
+    completed_lessons = Booking.objects.filter(trainee=logged_in_trainee, status='Completed').count()
+
+    # Remaining lessons calculation could vary based on your logic.
+    # Assuming remaining lessons is total - (scheduled + completed)
+    total_lessons = 18  # Example total number of lessons
+    remaining_lessons = total_lessons - (scheduled_lessons + completed_lessons)
+
+    # Calculate the percentage of completed lessons
+    if total_lessons != 0:
+        completed_percentage = (completed_lessons / total_lessons) * 100
+    else:
+        completed_percentage = 0
+
+    # Pass the data to the template
+    context = {
+        'scheduled_lessons': scheduled_lessons,
+        'completed_lessons': completed_lessons,
+        'remaining_lessons': remaining_lessons,
+        'completed_percentage': completed_percentage
+    }
+
+    return render(request, 'trainee/pie.html', context)

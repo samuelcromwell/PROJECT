@@ -45,7 +45,7 @@
 <table id="table" class="table table-bordered">
   <thead class="alert-warning">
       <tr>
-          <th scope="col">Id</th>
+          <!-- <th scope="col">Id</th> -->
           <th scope="col">Lesson Name</th>
           <th scope="col">Date</th>
           <th scope="col">Duration</th>
@@ -55,7 +55,7 @@
   <tbody>
       {% for event in events %}
       <tr>
-          <td>{{ event.id }}</td>                            
+          <!-- <td>{{ event.id }}</td>                             -->
           <td>{{ event.name }}</td>
           <td>{{ event.start|date }}</td>
           <td>{{ event.start|date:"H:i" }} - {{ event.end|date:"H:i" }}</td>

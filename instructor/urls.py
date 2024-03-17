@@ -16,7 +16,7 @@ urlpatterns = [
     path('myprofile/changepassword',views.changeprofile, name="changeprofile"),
     path('printprofile/', views.printprofile, name='printprofile'),
     path('progress/', views.progress, name='progress'),
-    # path('trainee-events/<int:trainee_id>/', views.trainee_events, name='trainee_events')
     path('trainee-events/<int:trainee_id>/', views.trainee_events, name='trainee_events'),
+    path('mark_complete/', views.mark_complete, name='mark_complete'),
 
 ]

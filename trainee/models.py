@@ -6,9 +6,15 @@ from instructor.models import Event
 #add your models here
 
 class Booking(models.Model):
+    STATUS_CHOICES = [
+        ('Scheduled', 'Scheduled'),
+        ('Completed', 'Completed'),
+    ]
+
     trainee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     booking_date = models.DateTimeField(auto_now_add=True)  # Date and time when the booking is made
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Scheduled')
 
     def event_name(self):
         return self.event.name  # Assuming the Event model has a 'name' field
@@ -24,4 +30,3 @@ class Booking(models.Model):
     
     def __str__(self):
         return f"Booking for {self.event} by {self.trainee}"
-

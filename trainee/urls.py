@@ -23,4 +23,7 @@ urlpatterns = [
     path('printprofile/', views.print_profile, name='printprofile'),   
     path('delete_booking/<int:booking_id>/', views.delete_booking, name='delete_booking'),
     path('calendarschedule/',views.calendarschedule, name="calendarschedule"),   
+    path('viewprogress/',views.viewprogress, name="viewprogress"),   
+    path('piechart/',views.piechart, name="piechart"),   
+
 ]

@@ -8,6 +8,7 @@ from instructor.models import Event
 from django.http import JsonResponse
 from datetime import datetime
 from django.contrib.auth.models import Group
+from django.urls import reverse
 # **html2pdf imports
 from django.http import HttpResponse
 from django.template.loader import get_template
@@ -92,6 +93,10 @@ def add_event(request):
     end = request.GET.get("end", None)
     title = request.GET.get("title", None)
     
+    # Check if all required parameters are present
+    if start is None or end is None or title is None:
+        return JsonResponse({'success': False, 'message': 'Missing required parameters'}, status=400)
+
     # Check if user is authenticated
     if request.user.is_authenticated:
         instructor_id = request.user.id  # Get the instructor's ID from the logged-in user
@@ -288,4 +293,42 @@ def printprofile(request):
 def trainee_events(request, trainee_id):
     # Retrieve the trainee's bookings from the database
     bookings = Booking.objects.filter(trainee_id=trainee_id)
+
+    # Populate the instructor_name field for each booking
+    for booking in bookings:
+        event = Event.objects.get(pk=booking.event_id)
+        instructor = CustomUser.objects.get(pk=event.instructor_id)
+        booking.instructor_name = instructor.username
+
+    context = {
+        'bookings': bookings,
+    }
+
     return render(request, 'instructor/trainee_events.html', {'bookings': bookings})
+
+
+def mark_complete(request):
+    if request.method == 'POST':
+        lesson_id = request.POST.get('lesson_id')
+        try:
+            booking = Booking.objects.get(pk=lesson_id)
+            if booking.status == 'Scheduled':
+                # Check if the instructor is marking their own lesson as complete
+                if booking.event.instructor == request.user:
+                    booking.status = 'Completed'
+                    booking.save()
+                    messages.success(request, '✅ Lesson marked as complete successfully! ✅')
+                else:
+                    messages.error(request, '⚠️ You are not authorized to mark this lesson as complete, since it belongs to another Instructor ⚠️')
+            else:
+                messages.error(request, '⚠️ Lesson is already marked as completed ⚠️')                
+        except Booking.DoesNotExist:
+            messages.error(request, '⚠️ Lesson not found ⚠️')
+
+    else:
+        messages.error(request, '⚠️ Invalid request method ⚠️')
+
+    # Redirect to the previous URL
+    return redirect(request.META.get('HTTP_REFERER', ''))
+
+

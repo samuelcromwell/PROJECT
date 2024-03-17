@@ -9,9 +9,19 @@
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
 </head>
 <body>
-<div class="container">
-    {% block body %}
-    {% endblock %}
+    <div class="container">
+        <div>
+       
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{message.tags}}">{{message}}
+                </div>
+              {% endfor %}
+            {% endif %}
+            
+          </div>     
+        {% block body %}
+        {% endblock %}
 </div>    
 </body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>

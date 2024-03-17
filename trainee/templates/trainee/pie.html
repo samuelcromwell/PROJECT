@@ -1,0 +1,43 @@
+{% extends 'trainee/base.html' %}
+
+{% block content %}
+<div class="container">
+    <canvas id="lessonChart" width="350" height="350"></canvas>
+    <p>Hi {{ request.user.username }}, your Progress is {{ completed_percentage }}%</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('lessonChart').getContext('2d');
+    var scheduled = {{ scheduled_lessons }};
+    var completed = {{ completed_lessons }};
+    var remaining = {{ remaining_lessons }};
+    
+    var lessonChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Completed Lessons', 'Scheduled Lessons', 'Remaining Lessons'],
+            datasets: [{
+                data: [completed, scheduled, remaining], // Using dynamic data obtained from the view
+                backgroundColor: [
+                    'green',
+                    'orange',
+                    'blue'
+                ]
+            }]
+        },
+        options: {
+            responsive: false, // Set to true for responsiveness
+            maintainAspectRatio: false, // Set to true to maintain aspect ratio
+            title: {
+                display: true,
+                text: 'Lesson Status'
+            }
+        }
+    });
+</script>
+<br>
+    <form action="{% url 'viewprogress' %}" method="get">
+        <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">View the Lessons</button>
+    </form>
+{% endblock %}

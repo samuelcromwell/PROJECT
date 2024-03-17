@@ -238,4 +238,4 @@ MPESA_INITIATOR_USERNAME = 'testapi'
 
 MPESA_INITIATOR_SECURITY_CREDENTIAL = 'Safaricom999!*!'
 
-TIME_ZONE = 'Africa/Nairobi'
+# TIME_ZONE = 'Africa/Nairobi'

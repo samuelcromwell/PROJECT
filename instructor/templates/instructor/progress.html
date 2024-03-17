@@ -50,7 +50,7 @@
                 <tr>
                     <td>{{ trainee.id }}</td>
                     <td>{{ trainee.username }}</td>
-                    <td><a href="{% url 'trainee_events' trainee.id %}" class="btn btn-primary btn-sm">Update</a></td> <!-- Button for updating progress -->
+                    <td><a href="{% url 'trainee_events' trainee_id=trainee.id %}" class="btn btn-primary btn-sm">Update</a></td> <!-- Button for updating progress -->
                 </tr>
                 {% endfor %}
             </tbody>

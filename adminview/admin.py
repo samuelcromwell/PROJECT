@@ -46,7 +46,7 @@ class TraineePaymentAdmin(admin.ModelAdmin):
     form = PaymentForm
     list_display = ('username', 'amount_paid', 'balance', 'payment_date')
     list_filter = ('trainee', BalanceFilter, 'payment_date')  # Add custom balance filter option
-
+    
 
     def username(self, obj):
         return obj.trainee.username

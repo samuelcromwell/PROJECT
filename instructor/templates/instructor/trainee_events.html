@@ -1,16 +1,73 @@
+{% extends 'instructor/pdfbase.html' %}
+{% load static %}
+{% block body %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schedule List</title>
+    <title>Individual Schedule List</title>
 </head>
 <body>
-    <h2>Schedule List</h2>
+    <h2>Individual Trainee Schedules</h2>
+
+    <div class="container">
+            <div class="col-md-6 text-end">
+                <a href="{% url 'progress' %}" class="btn btn-primary btn-md">BACK TO TRAINEE LIST</a>
+            </div>
+        </div>
+
     <ul>
         {% for event in events %}
         <li>{{ event }}</li>
         {% endfor %}
     </ul>
+
+    <hr style="border-top:1px solid #000; clear:both;"/>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table id="table" class="table table-bordered">
+                    <thead class="alert-warning">
+                        <tr>
+                            <th style="text-align: center; font-weight: bold; padding: 10px;">Event ID</th>
+                            <th style="text-align: center; font-weight: bold; padding: 10px;">Event Name</th>
+                            <th style="text-align: center; font-weight: bold; padding: 10px;">Starting Time</th>
+                            <th style="text-align: center; font-weight: bold; padding: 10px;">Duration</th>
+                            <th style="text-align: center; font-weight: bold; padding: 10px;">Ending Time</th>
+                            <th style="text-align: center; font-weight: bold; padding: 10px;">Booking Date</th>
+                            <th style="text-align: center; font-weight: bold; padding: 10px;">Instructor Name</th>
+                            <th style="text-align: center; font-weight: bold; padding: 10px;">Status</th>
+                            <th style="text-align: center; font-weight: bold; padding: 10px; display: none;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                        <tr>
+                            <td style="padding: 10px;">{{ booking.event_id }}</td>
+                            <td style="padding: 10px;">{{ booking.event_name }}</td>
+                            <td style="padding: 10px;">{{ booking.event_start }}</td>
+                            <td style="padding: 10px;">{{ booking.duration }}</td>
+                            <td style="padding: 10px;">{{ booking.event_end }}</td>
+                            <td style="padding: 10px;">{{ booking.booking_date }}</td>
+                            <td style="padding: 10px;">{{ booking.instructor_name }}</td>
+                            <td style="padding: 10px;">{{ booking.status }}</td>
+                            <td style="text-align: center; padding: 10px;">
+                                <form action="{% url 'mark_complete' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="lesson_id" value="{{ booking.id }}">
+                                    <button type="submit" class="btn btn-primary btn-sm">Mark as Complete</button>
+                                </form>
+                            </td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+{% endblock %}
