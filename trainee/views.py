@@ -188,7 +188,7 @@ def book_event(request, event_id):
     # Check if the trainee has already booked the event
     if Booking.objects.filter(trainee=request.user, event=event).exists():
         # Trainee has already booked the event, display an error message
-        messages.error(request, '⚠️ You have already booked this event ⚠️')
+        messages.error(request, '⚠️ You have already booked this lesson ⚠️')
         return redirect('event_list')  # Redirect to the event list page or wherever appropriate
     
     # Check if the event end datetime is after the current datetime
@@ -202,7 +202,7 @@ def book_event(request, event_id):
         return redirect('event_list')  # Redirect the user to a page showing the list of events
     else:
         # If the event has already ended, display an error message
-        messages.error(request, '⚠️ You cannot book past events ⚠️')
+        messages.error(request, '⚠️ You cannot book past lessons ⚠️')
         return redirect('event_list')  # Redirect to the event list page or wherever appropriate
 
 @login_required(login_url='traineelogin')

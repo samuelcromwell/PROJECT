@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'adminview',
     'instructor',
     'payments',
+    'django_daraja'
 ]
 
 MIDDLEWARE = [
