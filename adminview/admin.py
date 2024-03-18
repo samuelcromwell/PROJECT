@@ -10,11 +10,9 @@ from reportlab.lib.units import inch
 from datetime import datetime
 from django.conf import settings
 import os
-from django.db.models import Sum, F, Value
-from django.db.models.functions import Coalesce
 from django.db import models  # Import models module    
-
-
+from django.db.models import OuterRef, Subquery, Min, Sum, Value as V
+from django.db.models.functions import Coalesce
 
 class BalanceFilter(admin.SimpleListFilter):
     title = 'Balance'
@@ -22,30 +20,43 @@ class BalanceFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return (
-            ('not_zero', 'Not 0'),
-            ('zero', '0 (Fully Paid)'),
+            ('not_zero', 'Trainees with Balances'),
+            ('zero', '0 Balance (Fully Paid)'),
         )
 
     def queryset(self, request, queryset):
         if self.value() == 'zero':
             return queryset.annotate(
-                total_balance=Coalesce(Sum('balance'), Value(0), output_field=models.DecimalField())
+                total_balance=Coalesce(Sum('balance'), V(0), output_field=models.DecimalField())
             ).filter(total_balance=0)
         
-        #STILL DOESN'T WORK!!!
         elif self.value() == 'not_zero':
-            zero_users = TraineePayment.objects.values('trainee_id').annotate(
-                total_balance=Coalesce(Sum('balance'), Value(0), output_field=models.DecimalField())
+            # Query to get the IDs of fully paid users
+            fully_paid_users = TraineePayment.objects.annotate(
+                total_balance=Coalesce(Sum('balance'), V(0), output_field=models.DecimalField())
             ).filter(total_balance=0).values_list('trainee_id', flat=True)
-            return queryset.exclude(trainee_id__in=zero_users)
 
+            # Subquery to get the minimum balance for each username
+            min_balance_subquery = TraineePayment.objects.filter(
+                trainee_id=OuterRef('trainee_id')
+            ).annotate(
+                min_balance=Min('balance')
+            ).values('min_balance')[:1]
 
+            # Filter the queryset to include only records with positive balance and least balance for each username
+            queryset = queryset.filter(
+                balance__gt=0,
+                balance=Subquery(min_balance_subquery)
+            ).exclude(trainee_id__in=fully_paid_users)
+
+            return queryset
+
+        return queryset
 
 
 class TraineePaymentAdmin(admin.ModelAdmin):
-    form = PaymentForm
     list_display = ('username', 'amount_paid', 'balance', 'payment_date')
-    list_filter = ('trainee', BalanceFilter, 'payment_date')  # Add custom balance filter option
+    list_filter = ('trainee', BalanceFilter, 'payment_date')
     
 
     def username(self, obj):

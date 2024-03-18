@@ -17,6 +17,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.views.generic import ListView
 from . models import Booking
+from django.db.models import Q
 
 @login_required(login_url='traineelogin')
 def base(request):
@@ -191,6 +192,12 @@ def book_event(request, event_id):
         messages.error(request, '⚠️ You have already booked this lesson ⚠️')
         return redirect('event_list')  # Redirect to the event list page or wherever appropriate
     
+    # Check if the trainee has already booked a lesson with the same name but a different event ID
+    if Booking.objects.filter(trainee=request.user, event__name=event.name).exclude(event_id=event_id).exists():
+        # Trainee has already booked a lesson with the same name but a different event ID, display an error message
+        messages.error(request, '⚠️ You have already booked a lesson with the same name ⚠️')
+        return redirect('event_list')  # Redirect to the event list page or wherever appropriate
+    
     # Check if the event end datetime is after the current datetime
     if event.end >= timezone.now():
         # Create a new booking entry associating the current trainee with the selected event
@@ -304,7 +311,7 @@ def delete_booking(request, booking_id):
     booking.delete()
     
     # Optionally, you can add a success message to indicate that the booking has been deleted
-    # messages.success(request, 'Booking deleted successfully.')
+    messages.success(request, 'Lesson deleted successfully.')
     
     # Redirect the user to a page showing the list of bookings or any other appropriate page
     return redirect('event_list')

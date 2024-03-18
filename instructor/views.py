@@ -22,7 +22,7 @@ from instructor.forms import EditProfileForm
 
 @login_required(login_url='instructorlogin')
 def instbase(request):
-    return render(request, 'instructor/instbase.html')
+    return render(request, 'instructor/landing.html')
 
 @login_required(login_url='instructorlogin')
 def landing(request):
