@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'trainee',
     'adminview',
     'instructor',
-    'payments',
     'django_daraja'
 ]
 

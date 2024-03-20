@@ -2,28 +2,22 @@
 {% load static %}
 {% block body %}
 <style>
-    .styled-table {
-        width: 100%;
-        border-collapse: collapse;
-        border: 1px solid #ddd;
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        width: 200px;
+        margin: 15px;
+        display: inline-block;
+        border-radius: 8px;
+        overflow: hidden;
     }
 
-    .styled-table th, .styled-table td {
-        padding: 12px 15px;
-        text-align: left;
-        border: 1px solid #ddd;
+    .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     }
 
-    .styled-table th {
-        background-color: #f2f2f2;
-    }
-
-    .styled-table tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-    .styled-table tr:hover {
-        background-color: #ddd;
+    .container {
+        padding: 2px 16px;
     }
 </style>
 <div class="container">
@@ -35,27 +29,17 @@
             <a href="{% url 'instbase' %}" class="btn btn-primary btn-md">GO BACK</a>
         </div>
     </div>
-    <form method="post" action="#"> <!-- Modify form action to point to the new page -->
-        {% csrf_token %}
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Action</th> <!-- New column for action buttons -->
-                </tr>
-            </thead>
-            <tbody>
-                {% for trainee in trainees %}
-                <tr>
-                    <td>{{ trainee.id }}</td>
-                    <td>{{ trainee.username }}</td>
-                    <td><a href="{% url 'trainee_events' trainee_id=trainee.id %}" class="btn btn-primary btn-sm">Update</a></td> <!-- Button for updating progress -->
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <br>
-    </form>
+    <div class="row">
+        {% for trainee in trainees %}
+        <div class="card">
+            <div class="container">
+                <p>Trainee ID: {{ trainee.id }}</p>
+                <p>Username:</p>
+                <h4>{{ trainee.username }}<h4>
+                <a href="{% url 'trainee_events' trainee_id=trainee.id %}" class="btn btn-primary btn-sm">Update</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

@@ -13,6 +13,8 @@ import os
 from django.db import models  # Import models module    
 from django.db.models import OuterRef, Subquery, Min, Sum, Value as V
 from django.db.models.functions import Coalesce
+from django.db.models import F
+
 
 class BalanceFilter(admin.SimpleListFilter):
     title = 'Balance'
@@ -31,23 +33,20 @@ class BalanceFilter(admin.SimpleListFilter):
             ).filter(total_balance=0)
         
         elif self.value() == 'not_zero':
-            # Query to get the IDs of fully paid users
-            fully_paid_users = TraineePayment.objects.annotate(
-                total_balance=Coalesce(Sum('balance'), V(0), output_field=models.DecimalField())
-            ).filter(total_balance=0).values_list('trainee_id', flat=True)
-
-            # Subquery to get the minimum balance for each username
+            # Subquery to get the minimum balance for each trainee
             min_balance_subquery = TraineePayment.objects.filter(
                 trainee_id=OuterRef('trainee_id')
-            ).annotate(
+            ).values('trainee_id').annotate(
                 min_balance=Min('balance')
-            ).values('min_balance')[:1]
+            ).values('min_balance')
 
-            # Filter the queryset to include only records with positive balance and least balance for each username
-            queryset = queryset.filter(
+            # Filter the queryset to include only records with positive balance and the minimum balance for each trainee
+            queryset = queryset.annotate(
+                min_balance=Subquery(min_balance_subquery)
+            ).filter(
                 balance__gt=0,
-                balance=Subquery(min_balance_subquery)
-            ).exclude(trainee_id__in=fully_paid_users)
+                balance=F('min_balance')
+            )
 
             return queryset
 
@@ -73,10 +72,21 @@ class TraineePaymentAdmin(admin.ModelAdmin):
             "Export selected payments to PDF",
         )
         return actions
+    
+    def changelist_view(self, request, extra_context=None):
+        if extra_context is None:
+            extra_context = {}
+        total_collected = TraineePayment.objects.aggregate(total_amount=Sum('amount_paid'))['total_amount'] or 0
+        extra_context['total_money_collected'] = total_collected
+        return super().changelist_view(request, extra_context=extra_context)
+
 
     def export_to_pdf(self, modeladmin, request, queryset):
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="trainee_payments.pdf"'
+
+        # Calculate total money collected
+        total_collected = queryset.aggregate(total_amount=Sum('amount_paid'))['total_amount'] or 0
 
         # Create a PDF document
         doc = SimpleDocTemplate(response, pagesize=letter)
@@ -101,6 +111,10 @@ class TraineePaymentAdmin(admin.ModelAdmin):
         # Add heading
         heading = Paragraph("<b>Payment Report</b>", getSampleStyleSheet()['Heading1'])
         elements.append(heading)
+        
+        # Add total money collected at the top
+        total_text = Paragraph(f"<b>Total Money Collected:</b> Kshs {total_collected}", getSampleStyleSheet()['Normal'])
+        elements.append(total_text)
 
         # Add space before the table
         elements.append(Paragraph("<br/><br/>", getSampleStyleSheet()['Normal']))

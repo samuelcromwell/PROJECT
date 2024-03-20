@@ -27,7 +27,6 @@ urlpatterns = [
     path('trainee/', include('trainee.urls')),
     path('instructor/', include('instructor.urls')),
     path('adminview/', include('adminview.urls')),
-    path('payments/', include('payments.urls')),
     path('all_events/', views.all_events, name="all_events"),
     path('booked_events/', views.booked_events, name="booked_events"),
     path('add_event/', views.add_event, name="add_event"), 
