@@ -1,0 +1,15 @@
+{% extends 'trainee/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Enter Phone Number</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="phone_number" class="form-label">Enter Phone Number</label>
+            <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Enter your phone number">
+        </div>
+        <a href="{% url 'makepayment' %}" class="btn">Submit Payment</a>
+    </form>
+</div>
+{% endblock %}

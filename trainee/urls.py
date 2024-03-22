@@ -25,5 +25,8 @@ urlpatterns = [
     path('calendarschedule/',views.calendarschedule, name="calendarschedule"),   
     path('viewprogress/',views.viewprogress, name="viewprogress"),   
     path('piechart/',views.piechart, name="piechart"),   
+    path('makepayment/',views.makepayment, name="makepayment"),   
+    path('daraja/stk-push', views.stk_push_callback, name='mpesa_stk_push_callback'),
+    path('payment_page/', views.payment_page, name='payment_page'),
 
 ]

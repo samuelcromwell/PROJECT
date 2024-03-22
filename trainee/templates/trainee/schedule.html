@@ -42,7 +42,7 @@
                         <th style="text-align: center; font-weight: bold; padding: 10px;">Starting Time</th>
                         <th style="text-align: center; font-weight: bold; padding: 10px;">Duration</th>
                         <th style="text-align: center; font-weight: bold; padding: 10px;">Ending Time</th>
-                        <th style="text-align: center; font-weight: bold; padding: 10px;">Booking Date</th>
+                        {% comment %} <th style="text-align: center; font-weight: bold; padding: 10px;">Booking Date</th> {% endcomment %}
                         <th style="text-align: center; font-weight: bold; padding: 10px;">Instructor Name</th> <!-- Added column for Instructor Name -->
                         <th style="text-align: center; font-weight: bold; padding: 10px;">Status</th> <!-- Added column for Instructor Name -->
                         <th style="text-align: center; font-weight: bold; padding: 10px; display: none;">Actions</th> <!-- Hide this column -->
@@ -56,7 +56,7 @@
                         <td style="padding: 10px;">{{ booking.event_start }}</td>
                         <td style="padding: 10px;">{{ booking.duration }}</td>
                         <td style="padding: 10px;">{{ booking.event_end }}</td>
-                        <td style="padding: 10px;">{{ booking.booking_date }}</td>
+                        {% comment %} <td style="padding: 10px;">{{ booking.booking_date }}</td> {% endcomment %}
                         <td style="padding: 10px;">{{ booking.instructor_name }}</td> <!-- Display instructor name -->
                         <td style="padding: 10px;">{{ booking.status }}</td> <!-- Display instructor name -->
                         <td style="text-align: center; padding: 10px;">

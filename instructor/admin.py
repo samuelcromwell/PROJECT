@@ -71,7 +71,7 @@ class EventAdmin(admin.ModelAdmin):
         elements.append(Paragraph("<br/><br/>", getSampleStyleSheet()['Normal']))
 
         # Add heading
-        heading = Paragraph("<b>User Report</b>", getSampleStyleSheet()['Heading1'])
+        heading = Paragraph("<b>Lessons Report</b>", getSampleStyleSheet()['Heading1'])
         elements.append(heading)
 
         # Add space before the table

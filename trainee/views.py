@@ -18,6 +18,21 @@ from xhtml2pdf import pisa
 from django.views.generic import ListView
 from . models import Booking
 from django.db.models import Q
+#payments
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+from .models import MpesaPayment
+from django.http import HttpResponse
+from django_daraja.mpesa.core import MpesaClient
+import json
+# from django_daraja.mpesa.core import verify_payment
+# from django_daraja.mpesa.status import MpesaStatus
+from datetime import timedelta, datetime
+import requests
+
 
 @login_required(login_url='traineelogin')
 def base(request):
@@ -304,18 +319,19 @@ def delete_booking(request, booking_id):
     # Retrieve the booking object based on the booking ID
     booking = get_object_or_404(Booking, pk=booking_id)
     
-    # Check if the booking belongs to the current user or if the user has permission to delete bookings
-    # You may need to customize this logic based on your requirements
-    
-    # Delete the booking
-    booking.delete()
-    
-    # Optionally, you can add a success message to indicate that the booking has been deleted
-    messages.success(request, 'Lesson deleted successfully.')
+    # Check if the booking status is 'Scheduled' to allow deletion
+    if booking.status == 'Scheduled':
+        # Delete the booking
+        booking.delete()
+        
+        # Optionally, you can add a success message to indicate that the booking has been deleted
+        messages.success(request, 'Lesson deleted successfully.')
+    else:
+        # Add a message indicating that deletion is not allowed for completed bookings
+        messages.error(request, '⚠️ Cannot delete this lesson since it is already completed⚠️')
     
     # Redirect the user to a page showing the list of bookings or any other appropriate page
     return redirect('event_list')
-
 
 @login_required(login_url='traineelogin')
 def viewprogress(request):
@@ -334,6 +350,7 @@ def viewprogress(request):
     }
     return render(request, 'trainee/viewprogress.html', context)  
 
+@login_required(login_url='traineelogin')
 def piechart(request):
     # Assuming the logged-in user is accessed through request.user
     logged_in_trainee = request.user
@@ -364,60 +381,22 @@ def piechart(request):
     return render(request, 'trainee/pie.html', context)
 
 
-#payments
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse
-from .models import MpesaPayment
-from django.http import HttpResponse
-from django_daraja.mpesa.core import MpesaClient
-import json
-# from .mpesa.core import verify_payment
-# from .mpesa.status import MpesaStatus
-from datetime import timedelta, datetime
-
-
-# def payment_page(request):
-    # return render(request, 'payments/payment_page.html')
-
-def payment_page(request):
+def makepayment(request):
     cl = MpesaClient()
     # Use a Safaricom phone number that you have access to, for you to be able to view the prompt.
-    phone_number = '0748992421'
+    phone_number = '0717883946'
     amount = 1
     account_reference = 'reference'
-    transaction_desc = 'Vantage Fees'
-    callback_url = 'https://darajambili.herokuapp.com/express-payment';
+    transaction_desc = 'description'
+    callback_url = 'https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query'
     response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
     return HttpResponse(response)
 
 def stk_push_callback(request):
-        data = request.body
+    data = request.body
         
-        return HttpResponse("STK Push in Django👋")
+    return HttpResponse("STK Push in Django👋")
 
-
-
-# def process_payment(request):
-#     BASE_URL = 'https://c7da-41-212-76-10.ngrok-free.app'
-
-#     if request.method == 'POST':
-#         user_id = request.user.id
-
-#         phone = request.POST.get('phone')
-#         # cl = MpesaClient()
-#         # # amount = int(subscription_plan.price)
-#         # account_reference = 'reference'
-#         # transaction_desc = 'Description'
-#         # # callback_url = BASE_URL + f'/subscription_confirmation/{user_id}/{plan_id}/'
-        
-#         # # response = cl.stk_push(phone, amount, account_reference, transaction_desc, callback_url)
-#         # print(f'The response code is:{response.response_code}')
-#         # if response.response_code == "0":
-#         #     mpesa_payment = MpesaPayment.objects.create(user=request.user, subscription=subscription_plan, reference_id=response.checkout_request_id)
-#         #     return redirect('confirm_payment', mpesa_payment.id)
-#         # else:
-#             # messages.error(request, "We couldn't process your payment")
-#         return redirect('payments/payment_page.html')
+@login_required(login_url='traineelogin')
+def payment_page(request):
+    return render(request, 'trainee/payment_page.html')
