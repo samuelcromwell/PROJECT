@@ -84,7 +84,7 @@ def traineelist(request):
 
     return render(request, 'adminview/traineelist.html', context)
 
-def paymentsss(request):
+def payments(request):
     trainee = request.user
     payments = TraineePayment.objects.filter(trainee=trainee)
     total_paid = sum(payment.amount_paid for payment in payments)
