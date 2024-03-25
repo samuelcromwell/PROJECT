@@ -19,6 +19,7 @@ from vantage import settings
 from datetime import date
 from trainee.models import Booking
 from instructor.forms import EditProfileForm
+from django.utils import timezone
 
 @login_required(login_url='instructorlogin')
 def instbase(request):
@@ -177,13 +178,13 @@ from .models import Event, CustomUser  # Import the necessary models
 
 @login_required(login_url='instructorlogin') 
 def show_lessons(request):
-    # Fetch events from the tblevents table
-    events = Event.objects.all()
+    # Fetch events belonging to the currently logged-in instructor
+    events = Event.objects.filter(instructor=request.user)
 
     # Fetch instructor names for each event
     for event in events:
-        instructor = CustomUser.objects.get(pk=event.instructor_id)
-        event.instructor_name = instructor.username
+        instructor_name = event.instructor.username  # No need to fetch from CustomUser
+        event.instructor_name = instructor_name
 
     context = {
         'events': events
@@ -313,13 +314,21 @@ def mark_complete(request):
         try:
             booking = Booking.objects.get(pk=lesson_id)
             if booking.status == 'Scheduled':
-                # Check if the instructor is marking their own lesson as complete
-                if booking.event.instructor == request.user:
-                    booking.status = 'Completed'
-                    booking.save()
-                    messages.success(request, '✅ Lesson marked as complete successfully! ✅')
+                # Fetch the associated event
+                event = booking.event
+                # Access the ending time from the event object
+                ending_time = event.end
+                # Compare with the current time
+                if ending_time < timezone.now():
+                    # Proceed with marking the lesson as complete
+                    if event.instructor == request.user:
+                        booking.status = 'Completed'
+                        booking.save()
+                        messages.success(request, '✅ Lesson marked as complete successfully! ✅')
+                    else:
+                        messages.error(request, '⚠️ You are not authorized to mark this lesson as complete, since it belongs to another Instructor ⚠️')
                 else:
-                    messages.error(request, '⚠️ You are not authorized to mark this lesson as complete, since it belongs to another Instructor ⚠️')
+                    messages.error(request, '⚠️ Lesson cannot be marked as complete before the ending time ⚠️')
             else:
                 messages.error(request, '⚠️ Lesson is already marked as completed ⚠️')                
         except Booking.DoesNotExist:
@@ -330,5 +339,3 @@ def mark_complete(request):
 
     # Redirect to the previous URL
     return redirect(request.META.get('HTTP_REFERER', ''))
-
-
