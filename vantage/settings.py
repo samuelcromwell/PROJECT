@@ -40,7 +40,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'jazzmin',
-    'table',
+    # 'table',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -97,17 +97,23 @@ WSGI_APPLICATION = 'vantage.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'vantage',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
+#         'USER': 'root',
+#         'PASSWORD': 'crojesa2024',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vantage',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'USER': 'root',
-        'PASSWORD': 'crojesa2024',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 
 # Password validation
@@ -176,6 +182,7 @@ MEDIA_URL = '/media/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 
 LOGIN_URL = 'login'
 

@@ -52,7 +52,7 @@
   <h2>SIGN UP</h2>
   <form action="" method="post">    
     {% csrf_token %}
-    {{ form|crispy }}
+    {{ form.as_p }}
     
     
     <button class="btn" type="submit">Register</button>
